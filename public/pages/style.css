@@ -1,0 +1,289 @@
+@import url('https://fonts.googleapis.com/css2?family=Barlow:wght@700&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Barlow', sans-serif;
+}
+
+html, body{
+    height: 100%;
+    width: 100%;
+    scroll-behavior: smooth;
+}
+
+/* Navigation */
+nav{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 100px;
+    background-color: #fff;
+    position: relative;
+}
+
+.logo img{
+    width: 100px;
+    position: absolute;
+    top: -5px;
+    z-index: 10;
+}
+
+.tabs ul{
+    display: flex;
+    list-style: none;
+}
+
+.tabs ul li{
+    margin-left: 20px;
+}
+
+.tabs ul li a{
+    text-decoration: none;
+    color: #333;
+    font-size: 15px;
+    font-weight: 500;
+    position: relative;
+}
+
+.tabs ul li a:hover{
+    color: #bf0e0e;
+}
+
+.tabs ul li a::after{
+    content: '';
+    position: absolute;
+    bottom: -22px;
+    display: block;
+    width: 0;
+    height: 3px;
+    background-color: #bf0e0e;
+    left: 50%;
+    transform: translateX(-50%);
+    transition: width 0.3s ease;
+}
+
+.tabs ul li a:hover::after{
+    width: 100%;
+}
+
+.register-container a{
+    text-decoration: none;
+    color: #fff;
+    background-color: #bf0e0e;
+    padding: 12px 22px;
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.register-container a:hover{
+    background-color: #a00b0b;
+}
+
+/* HOME SECTION */
+
+.home{
+    background-image: url('../assets/home-bg.jpg');
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    height: 75vh;
+    background-color: #605757;
+    background-size: cover;
+    background-position: center;
+    padding: 0 100px;
+}
+
+.home-content h1{
+    font-size: 65px;
+    color: #ffffff;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+
+.home-content h2{
+    color: #ffffff;
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.home-content p{
+    font-size: 18px;
+    color: #ffffff;
+    margin-bottom: 30px;
+}
+
+.home-content button{
+    padding: 12px 30px;
+    font-size: 25px;
+    color: #fff;
+    font-weight: 500;
+    background-color: #bf0e0e;
+    border: none;
+    cursor: pointer;
+}
+
+.home-content button:hover{
+    background-color: #a00b0b;
+}
+
+/* BENEFITS SECTION */
+
+.benefits{
+    display: flex;
+    align-items: center;
+    text-align: center;
+    flex-direction: column;
+    padding: 50px 100px;
+    
+}
+
+.benefits-content-top{
+    margin-bottom: 50px;
+}
+
+.benefits-content-top h1{
+    font-size: 50px;
+    color: #333;
+    padding-bottom: 20px;
+}
+
+.benefits-content-top p{
+    font-size: 18px;
+    color: #333;
+    padding-bottom: 40px;
+}
+
+.benefits-image{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 50px;
+    position: relative;
+
+}
+
+.benefits-image-item img{
+    width: 300px;
+    height: 300px;
+    object-fit: cover;
+    margin-bottom: -50%;
+    clip-path: polygon(15% 0, 100% 0, 85% 100%, 0 100%);
+}
+
+.benefits-card{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 50px;
+    text-align: justify;
+    margin-top: 40px;
+}
+
+.benefits-card-item{
+    background-color: #f0f0f0;
+    padding: 20px 60px 0 45px;
+    width: 300px;
+    z-index: 10;
+    position: relative;
+    left: 10px;
+    clip-path: polygon(9% 0, 95% 0, 85% 100%, 0 100%);
+    transition: background-color 0.3s ease;
+    height: 180px;
+}
+
+.benefits-card-item h2{
+    font-size: 25px;
+    color: #333;
+    padding-bottom: 20px;
+}
+
+.benefits-card-item p{
+    font-size: 16px;
+    color: #333;
+}
+
+.benefits-card-item:hover{
+    background-color: #e0e0e0;
+}
+
+.benefits-card-item:hover h2{
+    color: #bf0e0e;
+}
+
+.benefits-content-bottom {
+    margin-top: 50px;
+    padding: 20px 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.benefits-content-bottom h1{
+    font-size: 50px;
+    color: #333;
+    padding-bottom: 20px;
+    font-weight: 700;
+}
+
+.benefits-content-bottom p{
+    font-size: 18px;
+    color: #333;
+    margin-right: 20px;
+}
+
+.benefits-content-bottom .benefits-right {
+    position: relative;
+    width: 400px;
+    height: 400px;
+    background: white;
+}
+
+.panel {
+    position: absolute;
+    overflow: hidden;
+    border-radius: 4px;
+}
+
+.panel img {
+    position: absolute;
+    width: 400px;
+    height: 400px;
+    object-fit: cover;
+    top: 0;
+    left: 0;
+}
+
+.panel-left {
+  width: 115px;
+  height: 270px;
+  left: 0px;
+  top: 50px;
+  transform: rotate(-4deg);
+  z-index: 1;
+}
+
+.panel-center {
+  width: 145px;
+  height: 360px;
+  left: 50%;
+  top: 10px;
+  transform: translateX(-50%) rotate(1deg);
+  z-index: 3;
+  box-shadow: 0 6px 24px rgba(0,0,0,0.2);
+}
+
+.panel-right {
+  width: 115px;
+  height: 250px;
+  right: 0px;
+  top: 75px;
+  transform: rotate(4deg);
+  z-index: 2;
+}
+
+.panel-left img   { left: 0px; }
+.panel-center img { left: -125px; }
+.panel-right img  { left: -260px; }
