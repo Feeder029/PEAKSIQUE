@@ -1,6 +1,6 @@
 # peaksique
 
-A new Flutter project.
+A Lifting Tracker app.
 
 ## Getting Started
 
