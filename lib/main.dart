@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:peaksique/pages/intro_screen.dart';
 import 'package:peaksique/pages/splash_screen.dart';
 import 'package:flutter/services.dart';
 

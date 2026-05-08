@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:peaksique/pages/home.dart';
+import 'package:peaksique/pages/intro_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -90,7 +90,7 @@ class _SplashScreenState extends State<SplashScreen> {
                     context,
                     PageRouteBuilder(
                       transitionDuration: Duration(milliseconds: 500),
-                      pageBuilder: (context, animation, secondaryAnimation) => HomePage(),
+                      pageBuilder: (context, animation, secondaryAnimation) => IntroScreen(),
                       transitionsBuilder: (context, animation, secondaryAnimation, child) {
                         final tween = Tween(
                           begin: Offset(0, 0.3), // start slightly below
