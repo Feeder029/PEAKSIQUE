@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:linear_progress_bar/linear_progress_bar.dart';
 
@@ -310,7 +308,7 @@ class Home extends StatelessWidget {
                           Center(
                             child: OutlinedButton(
                               onPressed: () {
-                                // Navigate to session details page
+                                
                               },
                               style: OutlinedButton.styleFrom(
                                 side: BorderSide(color: Colors.white60),

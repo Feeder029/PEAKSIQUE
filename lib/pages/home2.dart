@@ -5,7 +5,7 @@ import 'package:peaksique/models/category_model.dart';
 import 'package:peaksique/pages/splash_screen.dart';
 
 class HomePage extends StatefulWidget {
-  HomePage({super.key});
+  const HomePage({super.key});
 
   @override
   State<HomePage> createState() => _HomePageState();

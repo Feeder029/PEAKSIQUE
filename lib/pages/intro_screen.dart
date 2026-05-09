@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:introduction_screen/introduction_screen.dart';
-import 'package:peaksique/pages/home.dart';
+import 'package:peaksique/pages/navigation.dart';
 
 class IntroScreen extends StatelessWidget {
   const IntroScreen({super.key});
@@ -84,7 +84,7 @@ class IntroScreen extends StatelessWidget {
               context,
               PageRouteBuilder(
                 transitionDuration: Duration(milliseconds: 500),
-                pageBuilder: (context, animation, secondaryAnimation) => Home(),
+                pageBuilder: (context, animation, secondaryAnimation) => MainLayout(),
                 transitionsBuilder: (context, animation, secondaryAnimation, child) {
                   final tween = Tween(
                     begin: Offset(0, 0.3), // start slightly below
