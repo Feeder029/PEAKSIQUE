@@ -6,522 +6,462 @@ class Home extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    final w = size.width;
+    final h = size.height;
+
+    // Responsive scale helpers
+    final double sp = w / 375; // scale factor based on 375pt baseline (iPhone 14)
+    final double hp = h / 812; // height scale factor based on 812pt baseline
+
+    // Responsive text sizes
+    final double textXS   = (10 * sp).clamp(9,  13).toDouble();
+    final double textSM   = (12 * sp).clamp(11, 15).toDouble();
+    final double textMD   = (14 * sp).clamp(13, 17).toDouble();
+    final double textLG   = (16 * sp).clamp(14, 20).toDouble();
+    final double textXL   = (18 * sp).clamp(16, 22).toDouble();
+    final double text2XL  = (24 * sp).clamp(20, 30).toDouble();
+    final double text3XL  = (25 * sp).clamp(20, 32).toDouble();
+    final double text4XL  = (30 * sp).clamp(24, 38).toDouble();
+
+    // Responsive spacing
+    final double paddingXS  = (5  * sp).clamp(4,  8).toDouble();
+    final double paddingSM  = (10 * sp).clamp(8,  16).toDouble();
+    final double paddingMD  = (15 * sp).clamp(12, 20).toDouble();
+    final double paddingLG  = (20 * sp).clamp(16, 28).toDouble();
+    final double paddingXL  = (30 * sp).clamp(20, 40).toDouble();
+
+    // Responsive heights
+    final double headerHeight     = (250 * hp).clamp(200, 320).toDouble();
+    final double statsCardHeight  = (100 * hp).clamp(80,  130).toDouble();
+    final double buttonMinHeight  = (40  * hp).clamp(36,  52).toDouble();
+    final double borderRadius     = (12  * sp).clamp(10,  18).toDouble();
+
     return Scaffold(
       backgroundColor: Colors.black,
-      body: ListView(
-        scrollDirection: Axis.vertical,
-        shrinkWrap: true,
-        padding: EdgeInsets.all(20),
+      body: SafeArea(
+        child: ListView(
+          scrollDirection: Axis.vertical,
+          shrinkWrap: true,
+          padding: EdgeInsets.all(paddingLG),
+          children: [
+            // ── Header ──────────────────────────────────────────────────────
+            SizedBox(
+              height: headerHeight,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Good Morning!',
+                    style: TextStyle(color: Colors.white70, fontSize: textLG),
+                  ),
+                  SizedBox(height: paddingXS),
+                  Text(
+                    'Mark Reven',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: text4XL,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+
+                  // ── Stats Row ──────────────────────────────────────────────
+                  Expanded(
+                    child: Padding(
+                      padding: EdgeInsets.only(top: paddingSM),
+                      child: Row(
+                        children: [
+                          _StatCard(
+                            value: '4',
+                            label: 'WORKOUTS',
+                            valueSize: text2XL,
+                            labelSize: textMD,
+                            borderRadius: borderRadius,
+                          ),
+                          SizedBox(width: paddingSM),
+                          _StatCard(
+                            value: '2,840',
+                            label: 'KG LIFTED',
+                            valueSize: text2XL,
+                            labelSize: textMD,
+                            borderRadius: borderRadius,
+                          ),
+                          SizedBox(width: paddingSM),
+                          _StatCard(
+                            value: '12',
+                            label: 'DAY STREAK',
+                            valueSize: text2XL,
+                            labelSize: textMD,
+                            borderRadius: borderRadius,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+
+                  // ── Weekly Goal ────────────────────────────────────────────
+                  Padding(
+                    padding: EdgeInsets.only(top: paddingSM),
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'Weekly Goal',
+                              style: TextStyle(
+                                color: Colors.white54,
+                                fontSize: textMD,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Text(
+                              '4 / 5 sessions',
+                              style: TextStyle(
+                                color: Colors.pinkAccent,
+                                fontSize: textMD,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: paddingXS),
+                        LinearProgressBar(
+                          progressType: ProgressType.linear,
+                          maxSteps: 5,
+                          currentStep: 4,
+                          progressColor: Colors.pinkAccent,
+                          backgroundColor: Colors.white24,
+                          borderRadius: BorderRadius.circular(borderRadius),
+                          minHeight: (10 * hp).clamp(8, 14).toDouble(),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            // ── Today's Session ──────────────────────────────────────────────
+            Container(
+              margin: EdgeInsets.only(top: paddingLG),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _SectionHeader(
+                    title: "Today's Session",
+                    titleSize: textXL,
+                    actionSize: textMD,
+                  ),
+                  SizedBox(height: paddingMD),
+                  Container(
+                    padding: EdgeInsets.all(paddingSM),
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      color: const Color.fromARGB(255, 50, 50, 49),
+                      borderRadius: BorderRadius.circular(borderRadius),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'TUESDAY - PUSH DAY',
+                          style: TextStyle(
+                            color: Colors.pink.shade300,
+                            fontSize: textSM,
+                          ),
+                        ),
+                        SizedBox(height: paddingXS),
+                        Text(
+                          'Chest & Shoulders',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: text3XL,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(vertical: paddingSM),
+                          child: Wrap(
+                            spacing: paddingXS,
+                            runSpacing: paddingXS,
+                            children: ['Bench Press', 'OHP', 'Incline DB', 'Lateral Raise']
+                                .map((label) => _ExerciseChip(
+                                      label: label,
+                                      fontSize: textXS,
+                                      borderRadius: borderRadius,
+                                    ))
+                                .toList(),
+                          ),
+                        ),
+                        OutlinedButton(
+                          onPressed: () {},
+                          style: OutlinedButton.styleFrom(
+                            side: const BorderSide(color: Colors.white60),
+                            backgroundColor: const Color.fromARGB(255, 50, 50, 49),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(borderRadius * 0.8),
+                            ),
+                            minimumSize: Size(double.infinity, buttonMinHeight),
+                          ),
+                          child: Text(
+                            "Start Session ➤",
+                            style: TextStyle(fontSize: textMD, color: Colors.white),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            // ── Recent Activity ──────────────────────────────────────────────
+            Container(
+              margin: EdgeInsets.only(top: paddingLG),
+              child: Column(
+                children: [
+                  _SectionHeader(
+                    title: 'Recent Activity',
+                    titleSize: textXL,
+                    actionSize: textMD,
+                  ),
+                  SizedBox(height: paddingSM),
+                  ...[
+                    {
+                      'name': 'Back & Biceps',
+                      'day': 'Monday',
+                      'exercises': '3 Exercises',
+                      'duration': '45 mins',
+                      'kg': '+320 KG',
+                    },
+                    {
+                      'name': 'Leg Day',
+                      'day': 'Sunday',
+                      'exercises': '4 Exercises',
+                      'duration': '55 mins',
+                      'kg': '+480 KG',
+                    },
+                  ].map(
+                    (activity) => Padding(
+                      padding: EdgeInsets.only(bottom: paddingSM),
+                      child: _ActivityCard(
+                        name: activity['name']!,
+                        day: activity['day']!,
+                        exercises: activity['exercises']!,
+                        duration: activity['duration']!,
+                        kg: activity['kg']!,
+                        nameFontSize: textLG,
+                        detailFontSize: textSM,
+                        kgFontSize: textSM,
+                        padding: paddingMD,
+                        borderRadius: borderRadius,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+// ── Reusable Widgets ──────────────────────────────────────────────────────────
+
+class _StatCard extends StatelessWidget {
+  final String value;
+  final String label;
+  final double valueSize;
+  final double labelSize;
+  final double borderRadius;
+
+  const _StatCard({
+    required this.value,
+    required this.label,
+    required this.valueSize,
+    required this.labelSize,
+    required this.borderRadius,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: Container(
+        decoration: BoxDecoration(
+          color: const Color.fromARGB(255, 50, 50, 49),
+          borderRadius: BorderRadius.circular(borderRadius),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            FittedBox(
+              fit: BoxFit.scaleDown,
+              child: Text(
+                value,
+                style: TextStyle(
+                  color: Colors.pinkAccent,
+                  fontSize: valueSize,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            FittedBox(
+              fit: BoxFit.scaleDown,
+              child: Text(
+                label,
+                style: TextStyle(color: Colors.white70, fontSize: labelSize),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _SectionHeader extends StatelessWidget {
+  final String title;
+  final double titleSize;
+  final double actionSize;
+
+  const _SectionHeader({
+    required this.title,
+    required this.titleSize,
+    required this.actionSize,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          title,
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: titleSize,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        GestureDetector(
+          onTap: () {},
+          child: Text(
+            'View All',
+            style: TextStyle(
+              color: Colors.pinkAccent,
+              fontSize: actionSize,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _ExerciseChip extends StatelessWidget {
+  final String label;
+  final double fontSize;
+  final double borderRadius;
+
+  const _ExerciseChip({
+    required this.label,
+    required this.fontSize,
+    required this.borderRadius,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Chip(
+      label: Text(
+        label,
+        style: TextStyle(color: Colors.white70, fontSize: fontSize),
+      ),
+      shape: StadiumBorder(side: BorderSide(color: Colors.transparent)),
+      backgroundColor: Colors.grey.shade700,
+      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+      padding: EdgeInsets.symmetric(horizontal: 4, vertical: 0),
+    );
+  }
+}
+
+class _ActivityCard extends StatelessWidget {
+  final String name;
+  final String day;
+  final String exercises;
+  final String duration;
+  final String kg;
+  final double nameFontSize;
+  final double detailFontSize;
+  final double kgFontSize;
+  final double padding;
+  final double borderRadius;
+
+  const _ActivityCard({
+    required this.name,
+    required this.day,
+    required this.exercises,
+    required this.duration,
+    required this.kg,
+    required this.nameFontSize,
+    required this.detailFontSize,
+    required this.kgFontSize,
+    required this.padding,
+    required this.borderRadius,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.all(padding),
+      decoration: BoxDecoration(
+        color: const Color.fromARGB(255, 50, 50, 49),
+        borderRadius: BorderRadius.circular(borderRadius),
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Container(
-            height: 250,
-            padding: EdgeInsets.only(top: 30),
+          Text(
+            '•',
+            style: TextStyle(
+              color: Colors.pinkAccent,
+              fontSize: nameFontSize * 1.8,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          SizedBox(width: padding),
+          Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Good Morning!', //variable for greeting based on time of day
-                  style: TextStyle(color: Colors.white70, fontSize: 16),
-                ),
-                Text(
-                  'Mark Reven', //variable for user name
+                  name,
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: 30,
+                    fontSize: nameFontSize,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                Container(
-                  height: 100,
-                  padding: EdgeInsets.only(top: 20),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Expanded(
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: const Color.fromARGB(255, 50, 50, 49),
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                '4', //variable for workout count
-                                style: TextStyle(
-                                  color: Colors.pinkAccent,
-                                  fontSize: 24,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              Text(
-                                'WORKOUTS', //variable for workout label
-                                style: TextStyle(
-                                  color: Colors.white70,
-                                  fontSize: 14,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      SizedBox(width: 10),
-                      Expanded(
-                        child: Container(
-                          width: 115,
-                          decoration: BoxDecoration(
-                            color: const Color.fromARGB(255, 50, 50, 49),
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                '2,840', //variable for workout count
-                                style: TextStyle(
-                                  color: Colors.pinkAccent,
-                                  fontSize: 24,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              Text(
-                                'KG LIFTED', //variable for workout label
-                                style: TextStyle(
-                                  color: Colors.white70,
-                                  fontSize: 14,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      SizedBox(width: 10),
-                      Expanded(
-                        child: Container(
-                          width: 115,
-                          decoration: BoxDecoration(
-                            color: const Color.fromARGB(255, 50, 50, 49),
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                '12', //variable for workout count
-                                style: TextStyle(
-                                  color: Colors.pinkAccent,
-                                  fontSize: 24,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              Text(
-                                'DAY STREAK', //variable for workout label
-                                style: TextStyle(
-                                  color: Colors.white70,
-                                  fontSize: 14,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Container(
-                  padding: EdgeInsets.only(top: 10),
-                  height: 50,
-                  child: Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'Weekly Goal',
-                            style: TextStyle(
-                              color: Colors.white54,
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Text(
-                            '4 / 5 sessions', //variable for goal progress
-                            style: TextStyle(
-                              color: Colors.pinkAccent,
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 5),
-                        child: LinearProgressBar(
-                          progressType: ProgressType.linear,
-                          maxSteps: 3, //variable for total goal sessions
-                          currentStep: 2, //variable for completed goal sessions
-                          progressColor: Colors.pinkAccent,
-                          backgroundColor: Colors.white24,
-                          borderRadius: BorderRadius.circular(10),
-                          minHeight: 10,
-                        ),
-                      ),
-                    ],
-                  ),
+                SizedBox(height: 2),
+                Wrap(
+                  children: [
+                    Text('$day • ', style: TextStyle(color: Colors.white70, fontSize: detailFontSize)),
+                    Text('$exercises • ', style: TextStyle(color: Colors.white70, fontSize: detailFontSize)),
+                    Text(duration, style: TextStyle(color: Colors.white70, fontSize: detailFontSize)),
+                  ],
                 ),
               ],
             ),
           ),
-          SizedBox(
-            child: Container(
-              margin: EdgeInsets.only(top: 20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 15),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Today\'s Session',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            // Navigate to all sessions page
-                          },
-                          child: Text(
-                            'View All',
-                            style: TextStyle(
-                              color: Colors.pinkAccent,
-                              fontSize: 14,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    child: Container(
-                      padding: EdgeInsets.all(10),
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        color: const Color.fromARGB(255, 50, 50, 49),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'TUESDAY - PUSH DAY', //variable for session name
-                            style: TextStyle(
-                              color: Colors.pink.shade300,
-                              fontSize: 13,
-                            ),
-                          ),
-                          Text(
-                            'Chest & Shoulders', //variable for session details
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 25,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 10),
-                            child: SizedBox(
-                              width: double.infinity,
-                              child: Wrap(
-                                spacing: 5,
-                                children: [
-                                  Chip(
-                                    label: Text(
-                                      'Bench Press', //variable for session duration
-                                      style: TextStyle(
-                                        color: Colors.white70,
-                                        fontSize: 10,
-                                      ),
-                                    ),
-                                    shape: StadiumBorder(
-                                      side: BorderSide(
-                                        color: Colors.transparent,
-                                      ),
-                                    ),
-                                    backgroundColor: Colors.grey.shade700,
-                                  ),
-                                  Chip(
-                                    label: Text(
-                                      'OHP', //variable for session duration
-                                      style: TextStyle(
-                                        color: Colors.white70,
-                                        fontSize: 10,
-                                      ),
-                                    ),
-                                    shape: StadiumBorder(
-                                      side: BorderSide(
-                                        color: Colors.transparent,
-                                      ),
-                                    ),
-                                    backgroundColor: Colors.grey.shade700,
-                                  ),
-                                  Chip(
-                                    label: Text(
-                                      'Incline DB', //variable for session duration
-                                      style: TextStyle(
-                                        color: Colors.white70,
-                                        fontSize: 10,
-                                      ),
-                                    ),
-                                    shape: StadiumBorder(
-                                      side: BorderSide(
-                                        color: Colors.transparent,
-                                      ),
-                                    ),
-                                    backgroundColor: Colors.grey.shade700,
-                                  ),
-                                  Chip(
-                                    label: Text(
-                                      'Lateral Raise', //variable for session duration
-                                      style: TextStyle(
-                                        color: Colors.white70,
-                                        fontSize: 10,
-                                      ),
-                                    ),
-                                    shape: StadiumBorder(
-                                      side: BorderSide(
-                                        color: Colors.transparent,
-                                      ),
-                                    ),
-                                    backgroundColor: Colors.grey.shade700,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          Center(
-                            child: OutlinedButton(
-                              onPressed: () {
-                                
-                              },
-                              style: OutlinedButton.styleFrom(
-                                side: BorderSide(color: Colors.white60),
-                                backgroundColor: const Color.fromARGB(
-                                  255,
-                                  50,
-                                  50,
-                                  49,
-                                ),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                minimumSize: Size(double.infinity, 40),
-                              ),
-                              child: const Text(
-                                "Start Session ➤",
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          SizedBox(
-            child: Container(
-              margin: EdgeInsets.only(top: 20),
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Recent Activity',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          // Navigate to all activity page
-                        },
-                        child: Text(
-                          'View All',
-                          style: TextStyle(
-                            color: Colors.pinkAccent,
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    child: Column(
-                      children: [
-                        Container(
-                          padding: EdgeInsets.all(15),
-                          margin: EdgeInsets.only(bottom: 10, top: 10),
-                          decoration: BoxDecoration(
-                            color: const Color.fromARGB(255, 50, 50, 49),
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Text(
-                                '•',
-                                style: TextStyle(
-                                  color: Colors.pinkAccent,
-                                  fontSize: 30,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              SizedBox(width: 15),
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      'Back & Biceps', //variable for activity name
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          'Monday • ', //variable for activity date
-                                          style: TextStyle(
-                                            color: Colors.white70,
-                                            fontSize: 12,
-                                          ),
-                                        ),
-                                        Text(
-                                          '3 Exercises • ', //variable for activity details
-                                          style: TextStyle(
-                                            color: Colors.white70,
-                                            fontSize: 12,
-                                          ),
-                                        ),
-                                        Text(
-                                          '45 mins', //variable for activity details
-                                          style: TextStyle(
-                                            color: Colors.white70,
-                                            fontSize: 12,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Text(
-                                '+320 KG', //variable for activity performance
-                                style: TextStyle(
-                                  color: Colors.pinkAccent,
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Container(
-                          padding: EdgeInsets.all(15),
-                          decoration: BoxDecoration(
-                            color: const Color.fromARGB(255, 50, 50, 49),
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Text(
-                                '•',
-                                style: TextStyle(
-                                  color: Colors.pinkAccent,
-                                  fontSize: 30,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              SizedBox(width: 15),
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      'Back & Biceps', //variable for activity name
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          'Monday • ', //variable for activity date
-                                          style: TextStyle(
-                                            color: Colors.white70,
-                                            fontSize: 12,
-                                          ),
-                                        ),
-                                        Text(
-                                          '3 Exercises • ', //variable for activity details
-                                          style: TextStyle(
-                                            color: Colors.white70,
-                                            fontSize: 12,
-                                          ),
-                                        ),
-                                        Text(
-                                          '45 mins', //variable for activity details
-                                          style: TextStyle(
-                                            color: Colors.white70,
-                                            fontSize: 12,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Text(
-                                '+320 KG', //variable for activity performance
-                                style: TextStyle(
-                                  color: Colors.pinkAccent,
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
+          Text(
+            kg,
+            style: TextStyle(
+              color: Colors.pinkAccent,
+              fontSize: kgFontSize,
+              fontWeight: FontWeight.bold,
             ),
           ),
         ],
