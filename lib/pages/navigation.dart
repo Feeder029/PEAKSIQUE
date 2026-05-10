@@ -134,13 +134,13 @@ class _MainLayoutState extends State<MainLayout> {
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color: Colors.grey,
-                          fontSize: 18,
+                          fontSize: 15,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                       SizedBox(height: 15),
                       Container(
-                        padding: EdgeInsets.all(20),
+                        padding: EdgeInsets.all(18),
                         decoration: BoxDecoration(
                           color: Colors.grey.shade800.withOpacity(0.5),
                           borderRadius: BorderRadius.circular(25),
@@ -157,7 +157,7 @@ class _MainLayoutState extends State<MainLayout> {
                               child: Icon(
                                 Icons.fitness_center,
                                 color: Colors.pinkAccent,
-                                size: 30,
+                                size: 20,
                               ),
                             ),
                             SizedBox(width: 15),
@@ -170,7 +170,7 @@ class _MainLayoutState extends State<MainLayout> {
                                     'Add Workout',
                                     style: TextStyle(
                                       color: Colors.white,
-                                      fontSize: 20,
+                                      fontSize: 15,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
@@ -179,7 +179,7 @@ class _MainLayoutState extends State<MainLayout> {
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                       color: Colors.white54,
-                                      fontSize: 15,
+                                      fontSize: 13,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
@@ -189,7 +189,7 @@ class _MainLayoutState extends State<MainLayout> {
                             SizedBox(width: 15),
                             Icon(
                               Icons.arrow_forward_ios_rounded,
-                              size: 20,
+                              size: 18,
                               color: Colors.white54,
                             ),
                           ],
@@ -197,7 +197,7 @@ class _MainLayoutState extends State<MainLayout> {
                       ),
                       SizedBox(height: 10),
                       Container(
-                        padding: EdgeInsets.all(20),
+                        padding: EdgeInsets.all(18),
                         decoration: BoxDecoration(
                           color: Colors.grey.shade800.withOpacity(0.5),
                           borderRadius: BorderRadius.circular(25),
@@ -214,7 +214,7 @@ class _MainLayoutState extends State<MainLayout> {
                               child: Icon(
                                 Icons.calendar_month_outlined,
                                 color: Colors.pinkAccent,
-                                size: 30,
+                                size: 20,
                               ),
                             ),
                             SizedBox(width: 15),
@@ -227,7 +227,7 @@ class _MainLayoutState extends State<MainLayout> {
                                     'Create Plan',
                                     style: TextStyle(
                                       color: Colors.white,
-                                      fontSize: 20,
+                                      fontSize: 15,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
@@ -236,7 +236,7 @@ class _MainLayoutState extends State<MainLayout> {
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                       color: Colors.white54,
-                                      fontSize: 15,
+                                      fontSize: 13,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
@@ -246,7 +246,7 @@ class _MainLayoutState extends State<MainLayout> {
                             SizedBox(width: 15),
                             Icon(
                               Icons.arrow_forward_ios_rounded,
-                              size: 20,
+                              size: 18,
                               color: Colors.white54,
                             ),
                           ],
