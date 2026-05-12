@@ -78,6 +78,7 @@ class IntroScreen extends StatelessWidget {
       PageViewModel(
         title: "Analyze Your Performance",
         body: "Get insights into your workout data to optimize your training.",
+        useScrollView: false,
         footer: ElevatedButton(
           onPressed: () {
             Navigator.push(
@@ -126,7 +127,8 @@ class IntroScreen extends StatelessWidget {
           ),
           fullScreen: true,
           titlePadding: EdgeInsets.only(top: 90, bottom: 20),
-          bodyAlignment: Alignment.center
+          bodyAlignment: Alignment.center,
+          
         ),
       ),
     ];
