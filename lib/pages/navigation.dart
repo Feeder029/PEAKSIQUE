@@ -1,5 +1,6 @@
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:peaksique/pages/session_add.dart';
 import 'package:peaksique/pages/test.dart';
 import 'package:peaksique/pages/home2.dart';
 
@@ -139,60 +140,85 @@ class _MainLayoutState extends State<MainLayout> {
                         ),
                       ),
                       SizedBox(height: 15),
-                      Container(
-                        padding: EdgeInsets.all(18),
-                        decoration: BoxDecoration(
-                          color: Colors.grey.shade800.withOpacity(0.5),
-                          borderRadius: BorderRadius.circular(25),
-                          border: Border.all(color: Colors.white12, width: 2),
-                        ),
-                        child: Row(
-                          children: [
-                            Container(
-                              padding: EdgeInsets.all(15),
-                              decoration: BoxDecoration(
-                                color: Colors.pink.shade800.withOpacity(0.5),
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              child: Icon(
-                                Icons.fitness_center,
-                                color: Colors.pinkAccent,
-                                size: 20,
-                              ),
-                            ),
-                            SizedBox(width: 15),
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    'Add Workout',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.bold,
-                                    ),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            PageRouteBuilder(
+                              transitionDuration: Duration(milliseconds: 500),
+                              pageBuilder: (context, animation, secondaryAnimation) => AddSession(),
+                              transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                                final tween = Tween(
+                                  begin: Offset(0, 0.3), // start slightly below
+                                  end: Offset.zero,
+                                ).chain(CurveTween(curve: Curves.easeOut));
+
+                                return FadeTransition(
+                                  opacity: animation,
+                                  child: SlideTransition(
+                                    position: animation.drive(tween),
+                                    child: child,
                                   ),
-                                  Text(
-                                    'Single session exercises with sets & reps.',
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      color: Colors.white54,
-                                      fontSize: 13,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ],
+                                );
+                              },
+                            ),
+                          );
+                        },
+                        child: Container(
+                          padding: EdgeInsets.all(18),
+                          decoration: BoxDecoration(
+                            color: Colors.grey.shade800.withOpacity(0.5),
+                            borderRadius: BorderRadius.circular(25),
+                            border: Border.all(color: Colors.white12, width: 2),
+                          ),
+                          child: Row(
+                            children: [
+                              Container(
+                                padding: EdgeInsets.all(15),
+                                decoration: BoxDecoration(
+                                  color: Colors.pink.shade800.withOpacity(0.5),
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                child: Icon(
+                                  Icons.fitness_center,
+                                  color: Colors.pinkAccent,
+                                  size: 20,
+                                ),
                               ),
-                            ),
-                            SizedBox(width: 15),
-                            Icon(
-                              Icons.arrow_forward_ios_rounded,
-                              size: 18,
-                              color: Colors.white54,
-                            ),
-                          ],
+                              SizedBox(width: 15),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      'Add Workout',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    Text(
+                                      'Single session exercises with sets & reps.',
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        color: Colors.white54,
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              SizedBox(width: 15),
+                              Icon(
+                                Icons.arrow_forward_ios_rounded,
+                                size: 18,
+                                color: Colors.white54,
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                       SizedBox(height: 10),
