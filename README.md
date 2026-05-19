@@ -1,6 +1,6 @@
 # peaksique
 
-A Lifting Tracker app. G BA
+A Lifting Tracker app.
 Motivation > Consistency > Obsession....
 
 ## Getting Started
