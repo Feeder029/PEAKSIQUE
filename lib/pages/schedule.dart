@@ -23,47 +23,151 @@ class _ScheduleState extends State<Schedule> {
           child: Column(
             children: [
               Container(
-                color: Colors.black,
-                child: CalendarDatePicker2(
-                  config: CalendarDatePicker2Config(
-                    dayTextStyle: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.w700,
-                    ),
-                    controlsTextStyle: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.w700,
-                    ),
-                    weekdayLabelTextStyle: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.w700,
-                    ),
-                    todayTextStyle: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.w700,
-                    ),
-                    selectedDayTextStyle: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.w700,
-                    ),
-                    selectedDayHighlightColor: Colors.pinkAccent,
-                    centerAlignModePicker: false,
-                    customModePickerIcon: SizedBox(),
-                  ),
+                color: const Color(0xFF1A1A2E),
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // ── Top Row: Schedule (left) | Arrow + Month (right) ──
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text(
+                          'Schedule',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
 
-                  value: _dates,
+                        // Month Navigator (right side)
+                        Row(
+                          children: [
+                            IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  _focusedMonth = DateTime(
+                                    _focusedMonth.year,
+                                    _focusedMonth.month - 1,
+                                  );
+                                });
+                              },
+                              icon: const Icon(
+                                Icons.chevron_left,
+                                color: Colors.white,
+                              ),
+                              padding: EdgeInsets.zero,
+                              constraints: const BoxConstraints(),
+                            ),
+                            const SizedBox(width: 8),
+                            Text(
+                              '${_monthName(_focusedMonth.month)} ${_focusedMonth.year}',
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w700,
+                                fontSize: 15,
+                              ),
+                            ),
+                            const SizedBox(width: 8),
+                            IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  _focusedMonth = DateTime(
+                                    _focusedMonth.year,
+                                    _focusedMonth.month + 1,
+                                  );
+                                });
+                              },
+                              icon: const Icon(
+                                Icons.chevron_right,
+                                color: Colors.white,
+                              ),
+                              padding: EdgeInsets.zero,
+                              constraints: const BoxConstraints(),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
 
-                  onValueChanged: (dates) {
-                    setState(() {
-                      _dates = dates;
-                      showCalendar = false; // 👈 auto close
+                    const SizedBox(height: 8),
 
-                      if (_dates.isNotEmpty && _dates.first != null) {
-                        dateController.text =
-                            "${_dates.first!.month}/${_dates.first!.day}/${_dates.first!.year}";
-                      }
-                    });
-                  },
+                    // ── Badge ──
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 12,
+                        vertical: 6,
+                      ),
+                      decoration: BoxDecoration(
+                        color: Colors.pinkAccent.withOpacity(0.2),
+                        borderRadius: BorderRadius.circular(20),
+                        border: Border.all(color: Colors.pinkAccent, width: 1),
+                      ),
+                      child: const Text(
+                        '15 sessions this month',
+                        style: TextStyle(
+                          color: Colors.pinkAccent,
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+
+                    const SizedBox(height: 12),
+
+                    // ── Calendar (hide built-in header) ──
+                    CalendarDatePicker2(
+                      config: CalendarDatePicker2Config(
+                        dayTextStyle: const TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w700,
+                        ),
+                        controlsTextStyle: const TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w700,
+                        ),
+                        weekdayLabelTextStyle: const TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w700,
+                        ),
+                        todayTextStyle: const TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w700,
+                        ),
+                        selectedDayTextStyle: const TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w700,
+                        ),
+                        selectedDayHighlightColor: Colors.pinkAccent,
+                        centerAlignModePicker: false,
+                        customModePickerIcon: const SizedBox(),
+
+                        // 👇 Hide the built-in month/year header to avoid duplicate
+                        controlsHeight: 0,
+                        lastDate: DateTime(2100),
+                        firstDate: DateTime(2000),
+                      ),
+                      value: _dates,
+                      displayedMonthDate:
+                          _focusedMonth, // 👈 sync calendar to your custom nav
+                      onValueChanged: (dates) {
+                        setState(() {
+                          _dates = dates;
+                          showCalendar = false;
+                          if (_dates.isNotEmpty && _dates.first != null) {
+                            dateController.text =
+                                "${_dates.first!.month}/${_dates.first!.day}/${_dates.first!.year}";
+                          }
+                        });
+                      },
+                      onDisplayedMonthChanged: (month) {
+                        setState(
+                          () => _focusedMonth = month,
+                        ); // 👈 keep in sync if user swipes
+                      },
+                    ),
+                  ],
                 ),
               ),
               Container(
@@ -249,4 +353,27 @@ class _ScheduleState extends State<Schedule> {
       ),
     );
   }
+}
+
+// State variable — add this alongside _dates
+DateTime _focusedMonth = DateTime.now();
+
+// Helper — add this inside your State class
+String _monthName(int month) {
+  const names = [
+    '',
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December',
+  ];
+  return names[month];
 }
