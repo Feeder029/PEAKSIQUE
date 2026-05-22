@@ -1,7 +1,7 @@
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:peaksique/pages/schedule.dart';
 import 'package:peaksique/pages/session_add.dart';
-import 'package:peaksique/pages/test.dart';
 import 'package:peaksique/pages/home2.dart';
 
 import 'home.dart';
@@ -27,7 +27,7 @@ class _MainLayoutState extends State<MainLayout> {
   final List<Widget> _pages = [
     const Home(),
     const HomePage(),
-    const MyApp(),
+    const Schedule(),
     const Placeholder(),
   ];
 
