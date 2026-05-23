@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:linear_progress_bar/linear_progress_bar.dart';
 
-class Home extends StatelessWidget {
-  const Home({super.key});
+class HomePage extends StatelessWidget {
+  const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {

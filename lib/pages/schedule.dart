@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 
-class Schedule extends StatefulWidget {
-  const Schedule({super.key});
+class SchedulePage extends StatefulWidget {
+  const SchedulePage({super.key});
 
   @override
-  State<Schedule> createState() => _ScheduleState();
+  State<SchedulePage> createState() => _ScheduleState();
 }
 
-class _ScheduleState extends State<Schedule> {
+class _ScheduleState extends State<SchedulePage> {
   List<DateTime?> _dates = [];
   bool showCalendar = false;
   final TextEditingController dateController = TextEditingController();
@@ -23,7 +23,7 @@ class _ScheduleState extends State<Schedule> {
           child: Column(
             children: [
               Container(
-                color: const Color(0xFF1A1A2E),
+                
                 padding: const EdgeInsets.all(16),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -143,7 +143,7 @@ class _ScheduleState extends State<Schedule> {
                         centerAlignModePicker: false,
                         customModePickerIcon: const SizedBox(),
 
-                        // 👇 Hide the built-in month/year header to avoid duplicate
+                        // Hide the built-in month/year header to avoid duplicate
                         controlsHeight: 0,
                         lastDate: DateTime(2100),
                         firstDate: DateTime(2000),
@@ -164,7 +164,7 @@ class _ScheduleState extends State<Schedule> {
                       onDisplayedMonthChanged: (month) {
                         setState(
                           () => _focusedMonth = month,
-                        ); // 👈 keep in sync if user swipes
+                        ); //  keep in sync if user swipes
                       },
                     ),
                   ],
