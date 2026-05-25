@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:peaksique/pages/session_start.dart';
 
 class WorkoutPage extends StatefulWidget {
   const WorkoutPage({super.key});
@@ -64,7 +65,9 @@ class _WorkoutPageState extends State<WorkoutPage> {
                                 });
                               },
                               child: Icon(
-                                preview ? Icons.arrow_drop_down : Icons.arrow_drop_up,
+                                preview
+                                    ? Icons.arrow_drop_down
+                                    : Icons.arrow_drop_up,
                                 color: Colors.white54,
                                 size: 25,
                               ),
@@ -166,7 +169,7 @@ class _WorkoutPageState extends State<WorkoutPage> {
                               ],
                             ),
                           ),
-                        if(!preview)
+                        if (!preview)
                           Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
@@ -175,7 +178,7 @@ class _WorkoutPageState extends State<WorkoutPage> {
                                 padding: EdgeInsets.all(10),
                                 decoration: BoxDecoration(
                                   border: Border.all(color: Colors.white30),
-                                  borderRadius: BorderRadius.circular(12)
+                                  borderRadius: BorderRadius.circular(12),
                                 ),
                                 child: Column(
                                   children: [
@@ -196,99 +199,112 @@ class _WorkoutPageState extends State<WorkoutPage> {
                                       ),
                                     ),
                                     Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceAround,
                                       children: [
                                         Container(
                                           width: 90,
                                           padding: EdgeInsets.all(10),
                                           decoration: BoxDecoration(
-                                            border: Border.all(color:Colors.transparent),
-                                            borderRadius: BorderRadius.circular(12),
-                                            color: Colors.grey.shade800
+                                            border: Border.all(
+                                              color: Colors.transparent,
+                                            ),
+                                            borderRadius: BorderRadius.circular(
+                                              12,
+                                            ),
+                                            color: Colors.grey.shade800,
                                           ),
                                           child: Column(
                                             children: [
                                               Text(
-                                                 '3',
-                                                  textAlign: TextAlign.center,
-                                                  style: TextStyle(
-                                                    fontSize: 12,
-                                                    color: Colors.white,
-                                                    fontWeight: FontWeight.bold
-                                                  ),
+                                                '3',
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                  fontSize: 12,
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
                                               ),
                                               Text(
-                                                 'SETS',
-                                                  textAlign: TextAlign.center,
-                                                  style: TextStyle(
-                                                    fontSize: 13,
-                                                    color: Colors.white,
-                                                    fontWeight: FontWeight.bold
-                                                  ),
+                                                'SETS',
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                  fontSize: 13,
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
                                               ),
                                             ],
                                           ),
                                         ),
-                                        SizedBox(width: 5,),
+                                        SizedBox(width: 5),
                                         Container(
                                           width: 90,
                                           padding: EdgeInsets.all(10),
                                           decoration: BoxDecoration(
-                                            border: Border.all(color:Colors.transparent),
-                                            borderRadius: BorderRadius.circular(12),
-                                            color: Colors.grey.shade800
+                                            border: Border.all(
+                                              color: Colors.transparent,
+                                            ),
+                                            borderRadius: BorderRadius.circular(
+                                              12,
+                                            ),
+                                            color: Colors.grey.shade800,
                                           ),
                                           child: Column(
                                             children: [
                                               Text(
-                                                 '36',
-                                                  textAlign: TextAlign.center,
-                                                  style: TextStyle(
-                                                    fontSize: 12,
-                                                    color: Colors.white,
-                                                    fontWeight: FontWeight.bold
-                                                  ),
+                                                '36',
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                  fontSize: 12,
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
                                               ),
                                               Text(
-                                                 'REPS',
-                                                  textAlign: TextAlign.center,
-                                                  style: TextStyle(
-                                                    fontSize: 13,
-                                                    color: Colors.white,
-                                                    fontWeight: FontWeight.bold
-                                                  ),
+                                                'REPS',
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                  fontSize: 13,
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
                                               ),
                                             ],
                                           ),
                                         ),
-                                        SizedBox(width: 5,),
+                                        SizedBox(width: 5),
                                         Container(
                                           width: 90,
                                           padding: EdgeInsets.all(10),
                                           decoration: BoxDecoration(
-                                            border: Border.all(color:Colors.transparent),
-                                            borderRadius: BorderRadius.circular(12),
-                                            color: Colors.grey.shade800
+                                            border: Border.all(
+                                              color: Colors.transparent,
+                                            ),
+                                            borderRadius: BorderRadius.circular(
+                                              12,
+                                            ),
+                                            color: Colors.grey.shade800,
                                           ),
                                           child: Column(
                                             children: [
                                               Text(
-                                                 '120',
-                                                  textAlign: TextAlign.center,
-                                                  style: TextStyle(
-                                                    fontSize: 12,
-                                                    color: Colors.white,
-                                                    fontWeight: FontWeight.bold
-                                                  ),
+                                                '120',
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                  fontSize: 12,
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
                                               ),
                                               Text(
-                                                 'KG',
-                                                  textAlign: TextAlign.center,
-                                                  style: TextStyle(
-                                                    fontSize: 13,
-                                                    color: Colors.white,
-                                                    fontWeight: FontWeight.bold
-                                                  ),
+                                                'KG',
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                  fontSize: 13,
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
                                               ),
                                             ],
                                           ),
@@ -302,7 +318,39 @@ class _WorkoutPageState extends State<WorkoutPage> {
                           ),
                         SizedBox(height: 10),
                         OutlinedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              PageRouteBuilder(
+                                transitionDuration: Duration(milliseconds: 500),
+                                pageBuilder:
+                                    (context, animation, secondaryAnimation) =>
+                                        SessionStart(),
+                                transitionsBuilder: (
+                                  context,
+                                  animation,
+                                  secondaryAnimation,
+                                  child,
+                                ) {
+                                  final tween = Tween(
+                                    begin: Offset(
+                                      0,
+                                      0.3,
+                                    ), // start slightly below
+                                    end: Offset.zero,
+                                  ).chain(CurveTween(curve: Curves.easeOut));
+
+                                  return FadeTransition(
+                                    opacity: animation,
+                                    child: SlideTransition(
+                                      position: animation.drive(tween),
+                                      child: child,
+                                    ),
+                                  );
+                                },
+                              ),
+                            );
+                          },
                           style: OutlinedButton.styleFrom(
                             side: const BorderSide(color: Colors.white60),
                             backgroundColor: const Color.fromARGB(
