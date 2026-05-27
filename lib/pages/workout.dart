@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:peaksique/models/categories.dart';
 import 'package:peaksique/pages/session_start.dart';
 
 class WorkoutPage extends StatefulWidget {
@@ -9,10 +10,17 @@ class WorkoutPage extends StatefulWidget {
 }
 
 class _WorkoutPageState extends State<WorkoutPage> {
+  List<ExerciseModel> exercises = [];
   bool preview = true;
+
+  void _getExercises(){
+    exercises = ExerciseModel.getExercises();
+  }
 
   @override
   Widget build(BuildContext context) {
+    _getExercises();
+    
     return Scaffold(
       backgroundColor: Colors.black,
       body: Padding(
@@ -97,76 +105,23 @@ class _WorkoutPageState extends State<WorkoutPage> {
                             child: Wrap(
                               spacing: 5,
                               runSpacing: 5,
-                              children: [
-                                Container(
+                              children: exercises.map((exercise) {
+                                return Container(
                                   padding: EdgeInsets.all(10),
                                   decoration: BoxDecoration(
-                                    border: Border.all(
-                                      color: Colors.transparent,
-                                    ),
+                                    border: Border.all(color: Colors.transparent),
                                     borderRadius: BorderRadius.circular(25),
                                     color: Colors.white12,
                                   ),
                                   child: Text(
-                                    'Bench Press',
+                                    exercise.name,
                                     style: TextStyle(
                                       fontSize: 10,
                                       color: Colors.white54,
                                     ),
                                   ),
-                                ),
-                                Container(
-                                  padding: EdgeInsets.all(10),
-                                  decoration: BoxDecoration(
-                                    border: Border.all(
-                                      color: Colors.transparent,
-                                    ),
-                                    borderRadius: BorderRadius.circular(25),
-                                    color: Colors.white12,
-                                  ),
-                                  child: Text(
-                                    'OHP',
-                                    style: TextStyle(
-                                      fontSize: 10,
-                                      color: Colors.white54,
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  padding: EdgeInsets.all(10),
-                                  decoration: BoxDecoration(
-                                    border: Border.all(
-                                      color: Colors.transparent,
-                                    ),
-                                    borderRadius: BorderRadius.circular(25),
-                                    color: Colors.white12,
-                                  ),
-                                  child: Text(
-                                    'Incline DB',
-                                    style: TextStyle(
-                                      fontSize: 10,
-                                      color: Colors.white54,
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  padding: EdgeInsets.all(10),
-                                  decoration: BoxDecoration(
-                                    border: Border.all(
-                                      color: Colors.transparent,
-                                    ),
-                                    borderRadius: BorderRadius.circular(25),
-                                    color: Colors.white12,
-                                  ),
-                                  child: Text(
-                                    'Lateral Raise',
-                                    style: TextStyle(
-                                      fontSize: 10,
-                                      color: Colors.white54,
-                                    ),
-                                  ),
-                                ),
-                              ],
+                                );
+                              }).toList(),
                             ),
                           ),
                         if (!preview)
