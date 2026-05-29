@@ -1,10 +1,10 @@
-class Profile {
+class ProfileModel {
   final int? pId;
   final int actId;
   final String name;
   final  String image;
 
-  Profile({
+  ProfileModel({
     this.pId,
     required this.actId,
     required this.name,
@@ -13,17 +13,17 @@ class Profile {
 
   Map<String, dynamic> toMap() {
     return {
-      'pId': pId,
-      'actId': actId,
+      'p_id': pId,
+      'act_id': actId,
       'name': name,
       'image': image,
     };
   }
 
-  factory Profile.fromMap(Map<String, dynamic> map) {
-    return Profile(
-      pId: map['pId'],
-      actId: map['actId'],
+  factory ProfileModel.fromMap(Map<String, dynamic> map) {
+    return ProfileModel(
+      pId: map['p_id'],
+      actId: map['act_id'],
       name: map['name'],
       image: map['image'],
     );

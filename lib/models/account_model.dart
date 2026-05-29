@@ -1,9 +1,9 @@
-class Account {
+class AccountModel {
   final int? accId;
   final String email;
   final String password;
 
-  Account({
+  AccountModel({
     this.accId,
     required this.email,
     required this.password,
@@ -11,15 +11,15 @@ class Account {
 
   Map<String, dynamic> toMap() {
     return {
-      'accId': accId,
+      'acc_id': accId,
       'email': email,
       'password': password,
     };
   }
 
-  factory Account.fromMap(Map<String, dynamic> map) {
-   return Account(
-    accId: map['accId'],
+  factory AccountModel.fromMap(Map<String, dynamic> map) {
+   return AccountModel(
+    accId: map['ac_id'],
     email: map['email'],
     password: map['password'],
    ); 

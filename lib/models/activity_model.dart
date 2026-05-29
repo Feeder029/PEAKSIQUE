@@ -1,10 +1,10 @@
-class Activity {
+class ActivityModel {
   final int? actId;
   final int wId;
   final String name;
   final String status;
 
-  Activity({
+  ActivityModel({
     this.actId,
     required this.wId,
     required this.name,
@@ -20,8 +20,8 @@ class Activity {
     };
   }
 
-  factory Activity.fromMap(Map<String, dynamic> map) {
-    return Activity(
+  factory ActivityModel.fromMap(Map<String, dynamic> map) {
+    return ActivityModel(
       actId: map['act_id'],
       wId: map['wrk_id'],
       name: map['name'],

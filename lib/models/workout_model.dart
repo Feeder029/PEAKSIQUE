@@ -1,11 +1,11 @@
-class Workout {
+class WorkoutModel {
   final int? wId;
   final int pId;
   final String name;
   final String date;
   final String status;
 
-  Workout({
+  WorkoutModel({
     this.wId,
     required this.pId,
     required this.name,
@@ -23,8 +23,8 @@ class Workout {
     };
   }
 
-  factory Workout.fromMap(Map<String, dynamic> map) {
-    return Workout(
+  factory WorkoutModel.fromMap(Map<String, dynamic> map) {
+    return WorkoutModel(
       wId: map['wrk_id'],
       pId: map['p_id'],
       name: map['name'],

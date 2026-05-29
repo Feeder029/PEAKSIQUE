@@ -1,4 +1,4 @@
-class Sets {
+class SetsModel {
   final int? setId;
   final int actId;
   final int set;
@@ -6,7 +6,7 @@ class Sets {
   final int rest;
   final String status;
 
-  Sets({
+  SetsModel({
     this.setId,
     required this.actId,
     required this.set,
@@ -26,8 +26,8 @@ class Sets {
     };
   }
 
-  factory Sets.fromMap(Map<String, dynamic> map) {
-    return Sets(
+  factory SetsModel.fromMap(Map<String, dynamic> map) {
+    return SetsModel(
       setId: map['set_id'],
       actId: map['act_id'],
       set: map['set'],

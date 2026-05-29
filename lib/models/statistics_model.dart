@@ -25,8 +25,8 @@ class StatisticsModel {
 
   factory StatisticsModel.fromMap(Map<String, dynamic> map) {
     return StatisticsModel(
-      statID: map['statId'],
-      pId: map['pId'], 
+      statID: map['stat_id'],
+      pId: map['p_id'], 
       workouts: map['workouts'], 
       lifted: map['lifted'], 
       streak: map['streak'],
