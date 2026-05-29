@@ -1,0 +1,31 @@
+class Activity {
+  final int? actId;
+  final int wId;
+  final String name;
+  final String status;
+
+  Activity({
+    this.actId,
+    required this.wId,
+    required this.name,
+    required this.status,
+  });
+
+  Map<String, dynamic> toMap() {
+    return {
+      'act_id': actId,
+      'wrk_id': wId,
+      'name': name,
+      'status': status,
+    };
+  }
+
+  factory Activity.fromMap(Map<String, dynamic> map) {
+    return Activity(
+      actId: map['act_id'],
+      wId: map['wrk_id'],
+      name: map['name'],
+      status: map['status'],
+    );
+  }
+}
