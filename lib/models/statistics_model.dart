@@ -1,24 +1,35 @@
-class Profile {
-  final int? pId;
-  final int actId;
-  final String name;
-  final  String image;
+class StatisticsModel {
+  final int? statID;
+  final int pId;
+  final int workouts;
+  final int lifted;
+  final int streak;
 
-  Profile({
-    this.pId,
-    required this.actId,
-    required this.name,
-    required this.image,
+  StatisticsModel({
+    this.statID,
+    required this.pId,
+    required this.workouts,
+    required this.lifted,
+    required this.streak,
   });
 
   Map<String, dynamic> toMap() {
     return {
+      'statId': statID,
       'pId': pId,
-      'actId': actId,
-      'name': name,
-      'image': image,
+      'workouts': workouts,
+      'lifted': lifted,
+      'streak': streak,
     };
   }
 
-  
+  factory StatisticsModel.fromMap(Map<String, dynamic> map) {
+    return StatisticsModel(
+      statID: map['statId'],
+      pId: map['pId'], 
+      workouts: map['workouts'], 
+      lifted: map['lifted'], 
+      streak: map['streak'],
+    );
+  }
 }
