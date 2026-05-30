@@ -1,3 +1,11 @@
+final String accountTable = 'account';
+
+class AccountFields {
+  static final String accId = 'acc_id';
+  static final String email = 'email';
+  static final String password = 'password';
+}
+
 class AccountModel {
   final int? accId;
   final String email;
@@ -19,7 +27,7 @@ class AccountModel {
 
   factory AccountModel.fromMap(Map<String, dynamic> map) {
    return AccountModel(
-    accId: map['ac_id'],
+    accId: map['acc_id'],
     email: map['email'],
     password: map['password'],
    ); 

@@ -1,3 +1,12 @@
+final String activityTable = 'activity';
+
+class ActivityFields {
+  static final String actId = 'act_id';
+  static final String wId = 'w_id';
+  static final String name = 'name';
+  static final String status = 'status';
+}
+
 class ActivityModel {
   final int? actId;
   final int wId;

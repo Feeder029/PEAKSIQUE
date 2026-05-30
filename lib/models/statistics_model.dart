@@ -1,12 +1,22 @@
+final String statisticsTable = 'statistics';
+
+class StatisticsFields {
+  static final String statId = 'stat_id';
+  static final String pId = 'p_id';
+  static final String workouts = 'workouts';
+  static final String lifted = 'lifted';
+  static final String streak = 'streak';
+}
+
 class StatisticsModel {
-  final int? statID;
+  final int? statId;
   final int pId;
   final int workouts;
   final int lifted;
   final int streak;
 
   StatisticsModel({
-    this.statID,
+    this.statId,
     required this.pId,
     required this.workouts,
     required this.lifted,
@@ -15,7 +25,7 @@ class StatisticsModel {
 
   Map<String, dynamic> toMap() {
     return {
-      'statId': statID,
+      'statId': statId,
       'pId': pId,
       'workouts': workouts,
       'lifted': lifted,
@@ -25,7 +35,7 @@ class StatisticsModel {
 
   factory StatisticsModel.fromMap(Map<String, dynamic> map) {
     return StatisticsModel(
-      statID: map['stat_id'],
+      statId: map['stat_id'],
       pId: map['p_id'], 
       workouts: map['workouts'], 
       lifted: map['lifted'], 

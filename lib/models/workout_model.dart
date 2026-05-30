@@ -1,8 +1,18 @@
+final String workoutTable = 'workout';
+
+class WorkoutFields {
+  static final String wId = 'w_id';
+  static final String pId = 'p_id';
+  static final String name = 'name';
+  static final String date = 'date';
+  static final String status = 'status';
+}
+
 class WorkoutModel {
   final int? wId;
   final int pId;
   final String name;
-  final String date;
+  final DateTime date;
   final String status;
 
   WorkoutModel({
@@ -15,7 +25,7 @@ class WorkoutModel {
 
   Map<String, dynamic> toMap() {
     return {
-      'wrk_id': wId,
+      'w_id': wId,
       'p_id': pId,
       'name': name,
       'date': date,
@@ -25,7 +35,7 @@ class WorkoutModel {
 
   factory WorkoutModel.fromMap(Map<String, dynamic> map) {
     return WorkoutModel(
-      wId: map['wrk_id'],
+      wId: map['w_id'],
       pId: map['p_id'],
       name: map['name'],
       date: map['date'],

@@ -1,8 +1,19 @@
+final String setsTable = 'sets';
+
+class SetsFields {
+  static final String setId = 'set_id';
+  static final String actId = 'act_id';
+  static final String set = 'set';
+  static final String rep = 'rep';
+  static final String rest = 'rest';
+  static final String status = 'status';
+}
+
 class SetsModel {
   final int? setId;
   final int actId;
   final int set;
-  final int reps;
+  final int rep;
   final int rest;
   final String status;
 
@@ -10,7 +21,7 @@ class SetsModel {
     this.setId,
     required this.actId,
     required this.set,
-    required this.reps,
+    required this.rep,
     required this.rest,
     required this.status,
   });
@@ -20,7 +31,7 @@ class SetsModel {
       'set_id': setId,
       'act_id': actId,
       'set': set,
-      'reps': reps,
+      'rep': rep,
       'rest': rest,
       'status': status,
     };
@@ -31,7 +42,7 @@ class SetsModel {
       setId: map['set_id'],
       actId: map['act_id'],
       set: map['set'],
-      reps: map['reps'],
+      rep: map['rep'],
       rest: map['rest'],
       status: map['status'],
     );
