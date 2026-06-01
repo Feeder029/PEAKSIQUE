@@ -1,10 +1,13 @@
 final String profileTable = 'profile';
 
 class ProfileFields {
-  static final String pId = 'p_id';
-  static final String accId = 'acc_id';
-  static final String name = 'name';
-  static final String image = 'image';
+  static const List<String> values = [
+    pId, accId, name, image
+  ];
+  static const String pId = 'p_id';
+  static const String accId = 'acc_id';
+  static const String name = 'name';
+  static const String image = 'image';
 }
 
 class ProfileModel {
@@ -22,19 +25,19 @@ class ProfileModel {
 
   Map<String, dynamic> toMap() {
     return {
-      'p_id': pId,
-      'acc_id': accId,
-      'name': name,
-      'image': image,
+      ProfileFields.pId: pId,
+      ProfileFields.accId: accId,
+      ProfileFields.name: name,
+      ProfileFields.image: image,
     };
   }
 
   factory ProfileModel.fromMap(Map<String, dynamic> map) {
     return ProfileModel(
-      pId: map['p_id'],
-      accId: map['acc_id'],
-      name: map['name'],
-      image: map['image'],
+      pId: map[ProfileFields.pId] as int?,
+      accId: map[ProfileFields.accId] as int,
+      name: map[ProfileFields.name] as String,
+      image: map[ProfileFields.image] as String,
     );
   }
 }

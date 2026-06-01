@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:calendar_date_picker2/calendar_date_picker2.dart';
+import 'package:peaksique/database/helper.dart';
+import 'package:peaksique/models/workout_model.dart';
 import 'package:peaksique/pages/navigation.dart';
-
 class AddSession extends StatefulWidget {
   const AddSession({super.key});
 
@@ -10,10 +11,23 @@ class AddSession extends StatefulWidget {
 }
 
 class _AddSessionState extends State<AddSession> {
+  
   List<DateTime?> _dates = [];
   bool showCalendar = false;
   final TextEditingController dateController = TextEditingController();
+  final TextEditingController sessionNameController = TextEditingController();
+  final TextEditingController exerciseNameController = TextEditingController();
+  final TextEditingController setController = TextEditingController();
+  final TextEditingController repController = TextEditingController();
+  final TextEditingController kgController = TextEditingController();
+  final TextEditingController restController = TextEditingController();
 
+  @override
+  void dispose() {
+    sessionNameController.dispose();
+    dateController.dispose();
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,6 +50,7 @@ class _AddSessionState extends State<AddSession> {
                     ),
                     SizedBox(height: 3),
                     TextField(
+                      controller: sessionNameController,
                       style: TextStyle(fontSize: 15, color: Colors.white),
                       decoration: InputDecoration(
                         filled: true,
@@ -913,7 +928,20 @@ class _AddSessionState extends State<AddSession> {
         child: SizedBox(
           width: double.infinity,
           child: ElevatedButton(
-            onPressed: () {},
+            onPressed: () async {
+              final workout = WorkoutModel(
+                pId: 1, 
+                name: sessionNameController.text, 
+                date: DateTime.now().toIso8601String(), 
+                status: 'Active',
+              );
+              final result = await PeaksiqueDatabase.instance.create(workout);
+
+              debugPrint('Saved ID: ${result.wId}');
+
+              final savedWorkout = await PeaksiqueDatabase.instance.read(result.wId!);
+              debugPrint('Read back: ${savedWorkout.name}');
+            },
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.transparent,
               shape: RoundedRectangleBorder(

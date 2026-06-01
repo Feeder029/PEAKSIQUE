@@ -1,50 +1,53 @@
-final String setsTable = 'sets';
+final String setsTable = 'setdata';
 
 class SetsFields {
-  static final String setId = 'set_id';
-  static final String actId = 'act_id';
-  static final String set = 'set';
-  static final String rep = 'rep';
-  static final String rest = 'rest';
-  static final String status = 'status';
+  static const List<String> values = [
+    setId, actId, sets, reps, rest, status
+  ];
+  static const String setId = 'set_id';
+  static const String actId = 'act_id';
+  static const String sets = 'sets';
+  static const String reps = 'reps';
+  static const String rest = 'rest';
+  static const String status = 'status';
 }
 
 class SetsModel {
   final int? setId;
   final int actId;
-  final int set;
-  final int rep;
+  final int sets;
+  final int reps;
   final int rest;
   final String status;
 
   SetsModel({
     this.setId,
     required this.actId,
-    required this.set,
-    required this.rep,
+    required this.sets,
+    required this.reps,
     required this.rest,
     required this.status,
   });
 
   Map<String, dynamic> toMap() {
     return {
-      'set_id': setId,
-      'act_id': actId,
-      'set': set,
-      'rep': rep,
-      'rest': rest,
-      'status': status,
+      SetsFields.setId: setId,
+      SetsFields.actId: actId,
+      SetsFields.sets: sets,
+      SetsFields.reps: reps,
+      SetsFields.rest: rest,
+      SetsFields.status: status,
     };
   }
 
   factory SetsModel.fromMap(Map<String, dynamic> map) {
     return SetsModel(
-      setId: map['set_id'],
-      actId: map['act_id'],
-      set: map['set'],
-      rep: map['rep'],
-      rest: map['rest'],
-      status: map['status'],
+      setId: map[SetsFields.setId] as int?,
+      actId: map[SetsFields.actId] as int,
+      sets: map[SetsFields.sets] as int,
+      reps: map[SetsFields.reps] as int,
+      rest: map[SetsFields.rest] as int,
+      status: map[SetsFields.status] as String,
     );
   }
 }

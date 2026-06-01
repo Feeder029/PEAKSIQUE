@@ -1,10 +1,14 @@
 final String activityTable = 'activity';
 
 class ActivityFields {
-  static final String actId = 'act_id';
-  static final String wId = 'w_id';
-  static final String name = 'name';
-  static final String status = 'status';
+  static const List<String> values = [
+    actId, wId, name, status
+  ];
+
+  static const String actId = 'act_id';
+  static const String wId = 'w_id';
+  static const String name = 'name';
+  static const String status = 'status';
 }
 
 class ActivityModel {
@@ -22,19 +26,19 @@ class ActivityModel {
 
   Map<String, dynamic> toMap() {
     return {
-      'act_id': actId,
-      'wrk_id': wId,
-      'name': name,
-      'status': status,
+      ActivityFields.actId: actId,
+      ActivityFields.wId: wId,
+      ActivityFields.name: name,
+      ActivityFields.status: status,
     };
   }
 
   factory ActivityModel.fromMap(Map<String, dynamic> map) {
     return ActivityModel(
-      actId: map['act_id'],
-      wId: map['wrk_id'],
-      name: map['name'],
-      status: map['status'],
+      actId: map[ActivityFields.actId] as int?,
+      wId: map[ActivityFields.wId] as int,
+      name: map[ActivityFields.name] as String,
+      status: map[ActivityFields.status] as String,
     );
   }
 }

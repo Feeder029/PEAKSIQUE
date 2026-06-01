@@ -15,9 +15,9 @@ class PeaksiqueDatabase {
   PeaksiqueDatabase._init();
 
   Future<Database> get database async {
-    if(_database != null) return _database!;
+    if (_database != null) return _database!;
 
-    _database = await _initDB('peaksique.db');  //create database if none
+    _database = await _initDB('peaksique.db'); //create database if none
     return _database!;
   }
 
@@ -25,12 +25,16 @@ class PeaksiqueDatabase {
     final dbPath = await getDatabasesPath();
     final path = join(dbPath, filePath);
 
-    return await openDatabase(path, version: 1, onCreate: _createDB,); //for update etc
+    return await openDatabase(
+      path,
+      version: 1,
+      onCreate: _createDB,
+    ); //for update etc
   }
 
   //create the table
   Future _createDB(Database db, int version) async {
-    final idType =  'INTEGER PRIMARY KEY AUTOINCREMENT';
+    final idType = 'INTEGER PRIMARY KEY AUTOINCREMENT';
     final textType = 'TEXT NOT NULL';
     final intType = 'INTEGER NOT NULL';
     final boolType = 'BOOLEAN NOT NULL';
@@ -52,6 +56,9 @@ class PeaksiqueDatabase {
         ${ProfileFields.accId} $intType,
         ${ProfileFields.name} $textType,
         ${ProfileFields.image} $blobType,
+
+      FOREIGN KEY (${ProfileFields.accId})
+      REFERENCES $accountTable (${AccountFields.accId})
       )
     ''');
 
@@ -62,16 +69,22 @@ class PeaksiqueDatabase {
         ${StatisticsFields.workouts} $intType,
         ${StatisticsFields.lifted} $intType,
         ${StatisticsFields.streak} $intType,
+
+      FOREIGN KEY (${StatisticsFields.pId})
+      REFERENCES $profileTable (${ProfileFields.pId})
       )
     ''');
 
     await db.execute('''
       CREATE TABLE $workoutTable (
         ${WorkoutFields.wId} $idType,
-        ${WorkoutFields.pId} $idType,
-        ${WorkoutFields.name} $idType,
+        ${WorkoutFields.pId} $intType,
+        ${WorkoutFields.name} $textType,
         ${WorkoutFields.date} $dateType,
         ${WorkoutFields.status} $textType,
+
+      FOREIGN KEY (${WorkoutFields.pId})
+      REFERENCES $profileTable (${ProfileFields.pId})
       )
     ''');
 
@@ -81,6 +94,9 @@ class PeaksiqueDatabase {
         ${ActivityFields.wId} $intType,
         ${ActivityFields.name} $textType,
         ${ActivityFields.status} $textType,
+
+      FOREIGN KEY (${ActivityFields.wId})
+      REFERENCES $workoutTable (${WorkoutFields.wId})
       )
     ''');
 
@@ -88,20 +104,42 @@ class PeaksiqueDatabase {
       CREATE TABLE $setsTable (
         ${SetsFields.setId} $idType,
         ${SetsFields.actId} $intType,
-        ${SetsFields.set} $intType,
-        ${SetsFields.rep} $intType,
+        ${SetsFields.sets} $intType,
+        ${SetsFields.reps} $intType,
         ${SetsFields.rest} $timeType,
         ${SetsFields.status} $textType,
+      
+      FOREIGN KEY (${SetsFields.actId})
+      REFERENCES $activityTable (${ActivityFields.actId})
       )
     ''');
   }
-  
+
+  Future<WorkoutModel> create(WorkoutModel workout) async {
+    final db = await instance.database;
+    final id = await db.insert(workoutTable, workout.toMap());
+    return workout.copy(wId: id);
+  }
+
+  Future<WorkoutModel> read(int id) async {
+    final db = await instance.database;
+    final maps = await db.query(
+      workoutTable,
+      columns: WorkoutFields.values,
+      where: '${WorkoutFields.wId} = ?',
+      whereArgs: [id],
+    );
+
+    if(maps.isNotEmpty) {
+      return WorkoutModel.fromMap(maps.first);
+    } else {
+      throw Exception('ID $id not found');
+    }
+  }
+
   Future close() async {
     final db = await instance.database;
 
     db.close();
   }
-  
 }
-
-
