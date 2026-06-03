@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 import 'package:peaksique/database/helper.dart';
+import 'package:peaksique/models/activity_model.dart';
+import 'package:peaksique/models/sets_model.dart';
 import 'package:peaksique/models/workout_model.dart';
 import 'package:peaksique/pages/navigation.dart';
 
@@ -325,7 +327,7 @@ class _AddSessionState extends State<AddSession> {
         ),
         child: SizedBox(
           width: double.infinity,
-          child: ElevatedButton(
+          child: ElevatedButton( // save workout + activities + sets
             onPressed: () async {
               final workout = WorkoutModel(
                 pId: 1,
@@ -333,14 +335,25 @@ class _AddSessionState extends State<AddSession> {
                 date: DateTime.now().toIso8601String(),
                 status: 'Pending',
               );
-              final result = await PeaksiqueDatabase.instance.create(workout);
-
-              debugPrint('Saved ID: ${result.wId}');
-
-              final savedWorkout = await PeaksiqueDatabase.instance.read(
-                result.wId!,
-              );
-              debugPrint('Read back: ${savedWorkout.name}');
+              final workoutResult = await PeaksiqueDatabase.instance.createWorkout(workout);
+              for (var exercise in exercises) {
+                final activity = ActivityModel(
+                  wId: workoutResult.wId!,
+                  name: exercises.isNotEmpty ? exercises[0].exerciseNameController.text : 'Unnamed Exercise',
+                  status: 'Pending',
+                );
+                final activityResult = await PeaksiqueDatabase.instance.createActivity(activity);;
+                for (var set in exercise.sets) {
+                  final sets = SetsModel(
+                    actId: activityResult.actId!,
+                    sets: int.tryParse(set.repController.text) ?? 0,
+                    reps: int.tryParse(set.kgController.text) ?? 0,
+                    rest: int.tryParse(set.restController.text) ?? 0,
+                    status: 'Pending',
+                  );
+                  final setsResult = await PeaksiqueDatabase.instance.createSets(sets);
+                  }
+              }
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.transparent,

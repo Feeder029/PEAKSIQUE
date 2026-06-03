@@ -29,6 +29,23 @@ class SetsModel {
     required this.status,
   });
 
+  SetsModel copy({
+    int? setId,
+    int? actId,
+    int? sets,
+    int? reps,
+    int? rest,
+    String? status,
+  }) =>
+    SetsModel(
+      setId: setId ?? this.setId,
+      actId: actId ?? this.actId,
+      sets: sets ?? this.sets,
+      reps: reps ?? this.reps,
+      rest: rest ?? this.rest,
+      status: status ?? this.status
+    );
+
   Map<String, dynamic> toMap() {
     return {
       SetsFields.setId: setId,

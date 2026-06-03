@@ -24,6 +24,19 @@ class ActivityModel {
     required this.status,
   });
 
+  ActivityModel copy({
+    int? actId,
+    int? wId,
+    String? name,
+    String? status,
+  }) =>
+    ActivityModel(
+      actId: actId ?? this.actId,
+      wId: wId ?? this.wId,
+      name: name ?? this.name,
+      status: status ?? this.status
+    );
+
   Map<String, dynamic> toMap() {
     return {
       ActivityFields.actId: actId,

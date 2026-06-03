@@ -115,13 +115,25 @@ class PeaksiqueDatabase {
     ''');
   }
 
-  Future<WorkoutModel> create(WorkoutModel workout) async {
+  Future<WorkoutModel> createWorkout(WorkoutModel workout) async {
     final db = await instance.database;
     final id = await db.insert(workoutTable, workout.toMap());
     return workout.copy(wId: id);
   }
 
-  Future<WorkoutModel> read(int id) async {
+  Future<ActivityModel> createActivity(ActivityModel activity) async {
+    final db = await instance.database;
+    final id = await db.insert(activityTable, activity.toMap());
+    return activity.copy(actId: id);
+  }
+
+  Future<SetsModel> createSets(SetsModel sets) async {
+    final db = await instance.database;
+    final id = await db.insert(setsTable, sets.toMap());
+    return sets.copy(setId: id);
+  }
+
+  Future<WorkoutModel> readWorkout(int id) async {
     final db = await instance.database;
     final maps = await db.query(
       workoutTable,
@@ -132,6 +144,38 @@ class PeaksiqueDatabase {
 
     if(maps.isNotEmpty) {
       return WorkoutModel.fromMap(maps.first);
+    } else {
+      throw Exception('ID $id not found');
+    }
+  }
+
+  Future<ActivityModel> readActivity(int id) async {
+    final db = await instance.database;
+    final maps = await db.query(
+      activityTable,
+      columns: ActivityFields.values,
+      where: '${ActivityFields.actId} = ?',
+      whereArgs: [id],
+    );
+
+    if(maps.isNotEmpty) {
+      return ActivityModel.fromMap(maps.first);
+    } else {
+      throw Exception('ID $id not found');
+    }
+  }
+
+  Future<SetsModel> readSets(int id) async {
+    final db = await instance.database;
+    final maps = await db.query(
+      setsTable,
+      columns: SetsFields.values,
+      where: '${SetsFields.setId} = ?',
+      whereArgs: [id],
+    );
+
+    if(maps.isNotEmpty) {
+      return SetsModel.fromMap(maps.first);
     } else {
       throw Exception('ID $id not found');
     }
