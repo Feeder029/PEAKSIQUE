@@ -11,9 +11,40 @@ class AddSession extends StatefulWidget {
   State<AddSession> createState() => _AddSessionState();
 }
 
+class ExerciseData {
+  TextEditingController exerciseNameController = TextEditingController();
+  TextEditingController exerciseStatusController = TextEditingController();
+  List<SetData> sets = [];
+
+  void dispose() {
+    exerciseNameController.dispose();
+    exerciseStatusController.dispose();
+
+    for (var set in sets) {
+      set.dispose();
+    }
+  }
+}
+
+class SetData {
+  TextEditingController repController = TextEditingController();
+
+  TextEditingController kgController = TextEditingController();
+
+  TextEditingController restController = TextEditingController();
+
+  TextEditingController setStatusController = TextEditingController();
+
+  void dispose() {
+    repController.dispose();
+    kgController.dispose();
+    restController.dispose();
+    setStatusController.dispose();
+  }
+}
+
 class _AddSessionState extends State<AddSession> {
-  final List<List<TextEditingController>> setRows = [];
-  final List<List<TextEditingController>> exerciseList = [];
+  final List<ExerciseData> exercises = [];
   List<DateTime?> _dates = [];
   bool showCalendar = false;
 
@@ -22,67 +53,43 @@ class _AddSessionState extends State<AddSession> {
   final TextEditingController dateController = TextEditingController();
   final TextEditingController sessionStatusController = TextEditingController();
 
-  //Activity table
-  final TextEditingController exerciseNameController = TextEditingController();
-  final TextEditingController exerciseStatusController =
-      TextEditingController();
-
-  //Set table
-  final TextEditingController setController = TextEditingController();
-  final TextEditingController repController = TextEditingController();
-  final TextEditingController kgController = TextEditingController();
-  final TextEditingController restController = TextEditingController();
-  final TextEditingController setStatusController = TextEditingController();
-
-  void addSetRow() {
+  void addSetRow(int exerciseIndex) {
     setState(() {
-      setRows.add([
-        TextEditingController(),
-        TextEditingController(),
-        TextEditingController(),
-      ]);
+      exercises[exerciseIndex].sets.add(SetData());
     });
   }
 
-  void removeSetRow(int setIndex) {
+  void removeSetRow(int exerciseIndex, int setIndex) {
     setState(() {
-      for (var s in setRows[setIndex]) {
-        s.dispose();
-      }
-      setRows.removeAt(setIndex);
+      exercises[exerciseIndex].sets[setIndex].dispose();
+      exercises[exerciseIndex].sets.removeAt(setIndex);
     });
   }
 
   void addExercise() {
     setState(() {
-      exerciseList.add([TextEditingController()]);
+      exercises.add(ExerciseData());
     });
   }
 
   void removeExercise(int exerciseIndex) {
     setState(() {
-      for (var exer in exerciseList[exerciseIndex]) {
-        exer.dispose();
-      }
-      exerciseList.removeAt(exerciseIndex);
+      exercises[exerciseIndex].dispose();
+      exercises.removeAt(exerciseIndex);
     });
   }
 
   @override
   void dispose() {
-    for (var row in setRows) {
-      for (var s in row) {
-        s.dispose();
-      } 
-    }
-    for (var exercise in exerciseList) {
-      for (var exer in exercise) {
-        exer.dispose();
-      }
+    for (var exercise in exercises) {
+      exercise.dispose();
     }
 
     sessionNameController.dispose();
     dateController.dispose();
+    sessionStatusController.dispose();
+    dateController.dispose();
+
     super.dispose();
   }
 
@@ -262,7 +269,7 @@ class _AddSessionState extends State<AddSession> {
                         ),
                       ),
                       SizedBox(height: 5),
-                      ...exerciseList.asMap().entries.map(
+                      ...exercises.asMap().entries.map(
                         (e) => buildExercise(e.key),
                       ),
                       SizedBox(
@@ -363,228 +370,242 @@ class _AddSessionState extends State<AddSession> {
   }
 
   Widget buildExercise(int index) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 10),
-      child: SizedBox(
-        //Exercise card
-        child: Container(
-          padding: EdgeInsets.all(12),
-          decoration: BoxDecoration(
-            color: Colors.grey.shade800.withOpacity(0.7),
-            border: Border.all(color: Colors.grey.shade700),
-            borderRadius: BorderRadius.circular(15),
-          ),
-          child: Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Container(
-                    padding: EdgeInsets.all(5),
-                    width: 33,
-                    decoration: BoxDecoration(
-                      color: Colors.pink.shade900.withOpacity(0.5),
-                      border: Border.all(color: Colors.pink.shade800),
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    alignment: Alignment.center,
-                    child: Text(
-                      "${index + 1}", // variable exercise count
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 15,
-                        color: Colors.pinkAccent,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                  SizedBox(width: 10),
-                  Expanded(
-                    child: TextField(
-                      controller: exerciseNameController,
-                      style: TextStyle(fontSize: 15, color: Colors.white),
-                      decoration: InputDecoration(
-                        filled: true,
-                        fillColor: Colors.grey.shade800,
-                        contentPadding: EdgeInsets.only(left: 10, right: 10),
-                        hintText: 'Bench Press',
-                        hintStyle: TextStyle(
-                          color: Colors.white38,
-                          fontSize: 12,
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide(
-                            color: Colors.white12,
-                            width: 2,
-                          ),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide(
-                            color: Colors.white38,
-                            width: 2,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(width: 10),
-                  GestureDetector(
-                    onTap: () => removeExercise(index),
-                    child: Container(
+    return KeyedSubtree(
+      key: ValueKey(exercises[index]),
+      child: Padding(
+        padding: const EdgeInsets.only(bottom: 10),
+        child: SizedBox(
+          //Exercise card
+          child: Container(
+            padding: EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              color: Colors.grey.shade800.withOpacity(0.7),
+              border: Border.all(color: Colors.grey.shade700),
+              borderRadius: BorderRadius.circular(15),
+            ),
+            child: Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Container(
                       padding: EdgeInsets.all(5),
-                      width: 45,
+                      width: 33,
                       decoration: BoxDecoration(
-                        color: Colors.black45,
-                        border: Border.all(color: Colors.white30),
-                        borderRadius: BorderRadius.circular(7),
+                        color: Colors.pink.shade900.withOpacity(0.5),
+                        border: Border.all(color: Colors.pink.shade800),
+                        borderRadius: BorderRadius.circular(20),
                       ),
                       alignment: Alignment.center,
-                      child: Icon(
-                        Icons.delete_outline,
-                        size: 20,
-                        color: Colors.white,
+                      child: Text(
+                        "${index + 1}", // variable exercise count
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 15,
+                          color: Colors.pinkAccent,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 5),
-              Column(
-                children: [
-                  Row(
-                    children: [
-                      SizedBox(
-                        width: 30,
-                        child: Text(
-                          "SET",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(fontSize: 12, color: Colors.grey),
+                    SizedBox(width: 10),
+                    Expanded(
+                      child: TextField(
+                        controller: exercises[index].exerciseNameController,
+                        style: TextStyle(fontSize: 15, color: Colors.white),
+                        decoration: InputDecoration(
+                          filled: true,
+                          fillColor: Colors.grey.shade800,
+                          contentPadding: EdgeInsets.only(left: 10, right: 10),
+                          hintText: 'Bench Press',
+                          hintStyle: TextStyle(
+                            color: Colors.white38,
+                            fontSize: 12,
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide: BorderSide(
+                              color: Colors.white12,
+                              width: 2,
+                            ),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide: BorderSide(
+                              color: Colors.white38,
+                              width: 2,
+                            ),
+                          ),
                         ),
-                      ),
-                      SizedBox(width: 15),
-                      SizedBox(
-                        width: 80,
-                        child: Text(
-                          "REPS",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(fontSize: 12, color: Colors.grey),
-                        ),
-                      ),
-                      SizedBox(width: 15),
-                      SizedBox(
-                        width: 80,
-                        child: Text(
-                          "KG",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(fontSize: 12, color: Colors.grey),
-                        ),
-                      ),
-                      SizedBox(width: 15),
-                      SizedBox(
-                        width: 80,
-                        child: Text(
-                          "REST",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(fontSize: 12, color: Colors.grey),
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    child: Container(
-                      color: Colors.transparent,
-                      padding: EdgeInsets.only(top: 10, bottom: 10),
-                      child: Divider(
-                        indent: 4,
-                        endIndent: 4,
-                        thickness: 1,
-                        color: Colors.grey.withOpacity(0.5),
-                        height: 1,
                       ),
                     ),
-                  ),
-                  ...setRows.asMap().entries.map((e) => buildSetRow(e.key)),
-                  Container(
-                    alignment: Alignment.centerLeft,
-                    padding: EdgeInsets.only(left: 5),
-                    child: ElevatedButton(
-                      onPressed: () {
-                        addSetRow();
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.transparent,
-                        shape: RoundedRectangleBorder(
+                    SizedBox(width: 10),
+                    GestureDetector(
+                      onTap: () => removeExercise(index),
+                      child: Container(
+                        padding: EdgeInsets.all(5),
+                        width: 45,
+                        decoration: BoxDecoration(
+                          color: Colors.black45,
+                          border: Border.all(color: Colors.white30),
                           borderRadius: BorderRadius.circular(7),
                         ),
-                        side: BorderSide(color: Colors.white54, width: 1),
-                        elevation: 5,
-                        padding: EdgeInsets.symmetric(
-                          vertical: 5,
-                          horizontal: 12,
+                        alignment: Alignment.center,
+                        child: Icon(
+                          Icons.delete_outline,
+                          size: 20,
+                          color: Colors.white,
                         ),
                       ),
-                      child: Text(
-                        "+ Add set",
-                        style: TextStyle(fontSize: 12, color: Colors.white),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 5),
+                Column(
+                  children: [
+                    Row(
+                      children: [
+                        SizedBox(
+                          width: 30,
+                          child: Text(
+                            "SET",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(fontSize: 12, color: Colors.grey),
+                          ),
+                        ),
+                        SizedBox(width: 15),
+                        SizedBox(
+                          width: 80,
+                          child: Text(
+                            "REPS",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(fontSize: 12, color: Colors.grey),
+                          ),
+                        ),
+                        SizedBox(width: 15),
+                        SizedBox(
+                          width: 80,
+                          child: Text(
+                            "KG",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(fontSize: 12, color: Colors.grey),
+                          ),
+                        ),
+                        SizedBox(width: 15),
+                        SizedBox(
+                          width: 80,
+                          child: Text(
+                            "REST",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(fontSize: 12, color: Colors.grey),
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      child: Container(
+                        color: Colors.transparent,
+                        padding: EdgeInsets.only(top: 10, bottom: 10),
+                        child: Divider(
+                          indent: 4,
+                          endIndent: 4,
+                          thickness: 1,
+                          color: Colors.grey.withOpacity(0.5),
+                          height: 1,
+                        ),
                       ),
                     ),
-                  ),
-                ],
-              ),
-            ],
+                    ...exercises[index].sets.asMap().entries.map(
+                      (e) => buildSetRow(index, e.key),
+                    ),
+                    Container(
+                      alignment: Alignment.centerLeft,
+                      padding: EdgeInsets.only(left: 5),
+                      child: ElevatedButton(
+                        onPressed: () {
+                          addSetRow(index);
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.transparent,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(7),
+                          ),
+                          side: BorderSide(color: Colors.white54, width: 1),
+                          elevation: 5,
+                          padding: EdgeInsets.symmetric(
+                            vertical: 5,
+                            horizontal: 12,
+                          ),
+                        ),
+                        child: Text(
+                          "+ Add set",
+                          style: TextStyle(fontSize: 12, color: Colors.white),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),
     );
   }
 
-  Widget buildSetRow(int index) {
+  Widget buildSetRow(int exerciseIndex, int setIndex) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 10),
-      child: Row(
-        //Set Rows
-        children: [
-          SizedBox(
-            width: 30,
-            child: Text(
-              "${index + 1}",
-              textAlign: TextAlign.right,
-              style: TextStyle(fontSize: 12, color: Colors.grey),
-            ),
-          ),
-          SizedBox(width: 15),
-          buildSetTextfield(setRows[index][0]),
-          SizedBox(width: 15),
-          buildSetTextfield(setRows[index][1]),
-          SizedBox(width: 15),
-          buildSetTextfield(setRows[index][2]),
-          SizedBox(width: 15),
-          GestureDetector(
-            onTap: () => removeSetRow(index),
-            child: SizedBox(
+      child: KeyedSubtree(
+        key: ValueKey(exercises[exerciseIndex].sets[setIndex]),
+        child: Row(
+          //Set Rows
+          children: [
+            SizedBox(
               width: 30,
-              child: Container(
-                padding: EdgeInsets.all(3),
-                decoration: BoxDecoration(
-                  color: Colors.black87,
-                  border: Border.all(color: Colors.white38),
-                  borderRadius: BorderRadius.circular(7),
-                ),
-                child: Text(
-                  "x",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
+              child: Text(
+                "${setIndex + 1}",
+                textAlign: TextAlign.right,
+                style: TextStyle(fontSize: 12, color: Colors.grey),
+              ),
+            ),
+            SizedBox(width: 15),
+            buildSetTextfield(
+              exercises[exerciseIndex].sets[setIndex].repController,
+            ),
+            SizedBox(width: 15),
+            buildSetTextfield(
+              exercises[exerciseIndex].sets[setIndex].kgController,
+            ),
+            SizedBox(width: 15),
+            buildSetTextfield(
+              exercises[exerciseIndex].sets[setIndex].restController,
+            ),
+            SizedBox(width: 15),
+            GestureDetector(
+              onTap: () => removeSetRow(exerciseIndex, setIndex),
+              child: SizedBox(
+                width: 30,
+                child: Container(
+                  padding: EdgeInsets.all(3),
+                  decoration: BoxDecoration(
+                    color: Colors.black87,
+                    border: Border.all(color: Colors.white38),
+                    borderRadius: BorderRadius.circular(7),
+                  ),
+                  child: Text(
+                    "x",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -593,6 +614,7 @@ class _AddSessionState extends State<AddSession> {
     return SizedBox(
       width: 80,
       child: TextField(
+        controller: controller,
         style: TextStyle(fontSize: 12, color: Colors.white),
         textAlign: TextAlign.center,
         decoration: InputDecoration(
