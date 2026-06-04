@@ -138,7 +138,7 @@ class PeaksiqueDatabase {
   //read
   Future<WorkoutModel> readWorkout(int id) async {
     final db = await instance.database;
-    
+
     final maps = await db.query(
       workoutTable,
       columns: WorkoutFields.values,
@@ -146,7 +146,7 @@ class PeaksiqueDatabase {
       whereArgs: [id],
     );
 
-    if(maps.isNotEmpty) {
+    if (maps.isNotEmpty) {
       return WorkoutModel.fromMap(maps.first);
     } else {
       throw Exception('ID $id not found');
@@ -156,7 +156,9 @@ class PeaksiqueDatabase {
   Future<List<WorkoutModel>> readAllWorkout() async {
     final db = await instance.database;
     final orderBy = '${WorkoutFields.wId} ASC';
-    final result = await db.rawQuery('SELECT * FROM $workoutTable ORDER BY $orderBy');
+    final result = await db.rawQuery(
+      'SELECT * FROM $workoutTable ORDER BY $orderBy',
+    );
     return result.map((map) => WorkoutModel.fromMap(map)).toList();
   }
 
@@ -169,12 +171,32 @@ class PeaksiqueDatabase {
       whereArgs: [id],
     );
 
-    if(maps.isNotEmpty) {
+    if (maps.isNotEmpty) {
       return ActivityModel.fromMap(maps.first);
     } else {
       throw Exception('ID $id not found');
     }
   }
+
+  Future<List<ActivityModel>> readActivitiesByWorkoutId(int wId) async {
+    final db = await instance.database;
+    final result = await db.query(
+      activityTable,
+      where: '${ActivityFields.wId} = ?',
+      whereArgs: [wId],
+    );
+    return result.map((map) => ActivityModel.fromMap(map)).toList();
+  }
+
+  Future<List<ActivityModel>> readAllActivity() async {
+    final db = await instance.database;
+    final orderBy = '${ActivityFields.actId} ASC';
+    final result = await db.rawQuery(
+      'SELECT * FROM $activityTable ORDER BY $orderBy',
+    );
+    return result.map((map) => ActivityModel.fromMap(map)).toList();
+  }
+
 
   Future<SetsModel> readSets(int id) async {
     final db = await instance.database;
@@ -185,11 +207,36 @@ class PeaksiqueDatabase {
       whereArgs: [id],
     );
 
-    if(maps.isNotEmpty) {
+    if (maps.isNotEmpty) {
       return SetsModel.fromMap(maps.first);
     } else {
       throw Exception('ID $id not found');
     }
+  }
+
+  Future<SetsModel> readSetsActId(int id) async {
+    final db = await instance.database;
+    final maps = await db.query(
+      setsTable,
+      columns: SetsFields.values,
+      where: '${SetsFields.actId} = ?',
+      whereArgs: [id],
+    );
+
+    if (maps.isNotEmpty) {
+      return SetsModel.fromMap(maps.first);
+    } else {
+      throw Exception('ID $id not found');
+    }
+  }
+
+  Future<List<SetsModel>> readAllSets() async {
+    final db = await instance.database;
+    final orderBy = '${SetsFields.setId} ASC';
+    final result = await db.rawQuery(
+      'SELECT * FROM $setsTable ORDER BY $orderBy',
+    );
+    return result.map((map) => SetsModel.fromMap(map)).toList();
   }
 
   Future close() async {
