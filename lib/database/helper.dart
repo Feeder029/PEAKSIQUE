@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:peaksique/models/account_model.dart';
 import 'package:peaksique/models/activity_model.dart';
 import 'package:peaksique/models/profile_model.dart';
@@ -115,6 +116,7 @@ class PeaksiqueDatabase {
     ''');
   }
 
+  //create
   Future<WorkoutModel> createWorkout(WorkoutModel workout) async {
     final db = await instance.database;
     final id = await db.insert(workoutTable, workout.toMap());
@@ -133,8 +135,10 @@ class PeaksiqueDatabase {
     return sets.copy(setId: id);
   }
 
+  //read
   Future<WorkoutModel> readWorkout(int id) async {
     final db = await instance.database;
+    
     final maps = await db.query(
       workoutTable,
       columns: WorkoutFields.values,
@@ -147,6 +151,13 @@ class PeaksiqueDatabase {
     } else {
       throw Exception('ID $id not found');
     }
+  }
+
+  Future<List<WorkoutModel>> readAllWorkout() async {
+    final db = await instance.database;
+    final orderBy = '${WorkoutFields.wId} ASC';
+    final result = await db.rawQuery('SELECT * FROM $workoutTable ORDER BY $orderBy');
+    return result.map((map) => WorkoutModel.fromMap(map)).toList();
   }
 
   Future<ActivityModel> readActivity(int id) async {

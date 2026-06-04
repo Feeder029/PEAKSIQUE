@@ -47,6 +47,7 @@ class SetData {
 
 class _AddSessionState extends State<AddSession> {
   final List<ExerciseData> exercises = [];
+  String storedDate = "";
   List<DateTime?> _dates = [];
   bool showCalendar = false;
 
@@ -228,12 +229,20 @@ class _AddSessionState extends State<AddSession> {
 
                             onValueChanged: (dates) {
                               setState(() {
+                                
                                 _dates = dates;
-                                showCalendar = false; // 👈 auto close
+                                showCalendar = false; 
 
                                 if (_dates.isNotEmpty && _dates.first != null) {
+                                  final selected = _dates.first!;
+
+                                  // 🖥 UI display only
                                   dateController.text =
-                                      "${_dates.first!.month}/${_dates.first!.day}/${_dates.first!.year}";
+                                      "${selected.month}/${selected.day}/${selected.year}";
+
+                                  // 💾 DB storage (DATE ONLY, no time)
+                                  storedDate = DateTime(selected.year, selected.month, selected.day)
+                                      .toIso8601String();
                                 }
                               });
                             },
@@ -332,17 +341,18 @@ class _AddSessionState extends State<AddSession> {
               final workout = WorkoutModel(
                 pId: 1,
                 name: sessionNameController.text,
-                date: DateTime.now().toIso8601String(),
+                date: storedDate,
                 status: 'Pending',
               );
               final workoutResult = await PeaksiqueDatabase.instance.createWorkout(workout);
+              debugPrint('WID: ${workoutResult.date}');
               for (var exercise in exercises) {
                 final activity = ActivityModel(
                   wId: workoutResult.wId!,
                   name: exercises.isNotEmpty ? exercises[0].exerciseNameController.text : 'Unnamed Exercise',
                   status: 'Pending',
                 );
-                final activityResult = await PeaksiqueDatabase.instance.createActivity(activity);;
+                final activityResult = await PeaksiqueDatabase.instance.createActivity(activity);
                 for (var set in exercise.sets) {
                   final sets = SetsModel(
                     actId: activityResult.actId!,
@@ -352,7 +362,7 @@ class _AddSessionState extends State<AddSession> {
                     status: 'Pending',
                   );
                   final setsResult = await PeaksiqueDatabase.instance.createSets(sets);
-                  }
+                }
               }
             },
             style: ElevatedButton.styleFrom(
