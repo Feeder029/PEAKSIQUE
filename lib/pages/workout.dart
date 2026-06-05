@@ -260,7 +260,7 @@ class _WorkoutPageState extends State<WorkoutPage> {
                                                           FutureBuilder(
                                                             future: PeaksiqueDatabase
                                                                 .instance
-                                                                .readSetsActId(
+                                                                .readAllSetsWithId(
                                                                   activity
                                                                       .actId!,
                                                                 ),
@@ -282,9 +282,16 @@ class _WorkoutPageState extends State<WorkoutPage> {
                                                                 );
                                                               }
 
-                                                              final setsData =
-                                                                  snapshot
-                                                                      .data!;
+                                                              final setsData = snapshot.data!;
+                                                              final totalSet = setsData.length;
+                                                              final totalRep = setsData.fold(
+                                                                0,
+                                                                (sum, item) => sum + item.reps,
+                                                              );
+                                                              final totalKg = setsData.fold(
+                                                                0,
+                                                                (sum, item) => sum + item.kg,
+                                                              );
 
                                                               return Row(
                                                                 mainAxisAlignment:
@@ -314,7 +321,7 @@ class _WorkoutPageState extends State<WorkoutPage> {
                                                                     child: Column(
                                                                       children: [
                                                                         Text(
-                                                                          '${setsData.sets}',
+                                                                          '$totalSet',
                                                                           textAlign:
                                                                               TextAlign.center,
                                                                           style: TextStyle(
@@ -368,7 +375,7 @@ class _WorkoutPageState extends State<WorkoutPage> {
                                                                     child: Column(
                                                                       children: [
                                                                         Text(
-                                                                          '${setsData.reps}',
+                                                                          '$totalRep',
                                                                           textAlign:
                                                                               TextAlign.center,
                                                                           style: TextStyle(
@@ -422,7 +429,7 @@ class _WorkoutPageState extends State<WorkoutPage> {
                                                                     child: Column(
                                                                       children: [
                                                                         Text(
-                                                                          '${setsData.rest}',
+                                                                          '$totalKg',
                                                                           textAlign:
                                                                               TextAlign.center,
                                                                           style: TextStyle(

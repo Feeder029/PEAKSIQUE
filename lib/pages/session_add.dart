@@ -29,6 +29,8 @@ class ExerciseData {
 }
 
 class SetData {
+  TextEditingController setController = TextEditingController();
+
   TextEditingController repController = TextEditingController();
 
   TextEditingController kgController = TextEditingController();
@@ -38,6 +40,7 @@ class SetData {
   TextEditingController setStatusController = TextEditingController();
 
   void dispose() {
+    setController.dispose();
     repController.dispose();
     kgController.dispose();
     restController.dispose();
@@ -353,15 +356,17 @@ class _AddSessionState extends State<AddSession> {
                   status: 'Pending',
                 );
                 final activityResult = await PeaksiqueDatabase.instance.createActivity(activity);
-                for (var set in exercise.sets) {
-                  final sets = SetsModel(
+                for (int i = 0; i < exercise.sets.length; i++) {
+                  final sets = exercise.sets[i];
+                  final setModel = SetsModel(
                     actId: activityResult.actId!,
-                    sets: int.tryParse(set.repController.text) ?? 0,
-                    reps: int.tryParse(set.kgController.text) ?? 0,
-                    rest: int.tryParse(set.restController.text) ?? 0,
+                    sets: i + 1,
+                    reps: int.tryParse(sets.repController.text) ?? 0,
+                    kg: int.tryParse(sets.kgController.text) ?? 0,
+                    rest: int.tryParse(sets.restController.text) ?? 0,
                     status: 'Pending',
                   );
-                  final setsResult = await PeaksiqueDatabase.instance.createSets(sets);
+                  final setsResult = await PeaksiqueDatabase.instance.createSets(setModel);
                 }
               }
             },

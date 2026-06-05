@@ -2,12 +2,13 @@ final String setsTable = 'setdata';
 
 class SetsFields {
   static const List<String> values = [
-    setId, actId, sets, reps, rest, status
+    setId, actId, sets, reps, kg, rest, status
   ];
   static const String setId = 'set_id';
   static const String actId = 'act_id';
   static const String sets = 'sets';
   static const String reps = 'reps';
+  static const String kg = 'kg';
   static const String rest = 'rest';
   static const String status = 'status';
 }
@@ -17,6 +18,7 @@ class SetsModel {
   final int actId;
   final int sets;
   final int reps;
+  final int kg;
   final int rest;
   final String status;
 
@@ -25,6 +27,7 @@ class SetsModel {
     required this.actId,
     required this.sets,
     required this.reps,
+    required this.kg,
     required this.rest,
     required this.status,
   });
@@ -34,6 +37,7 @@ class SetsModel {
     int? actId,
     int? sets,
     int? reps,
+    int? kg,
     int? rest,
     String? status,
   }) =>
@@ -42,6 +46,7 @@ class SetsModel {
       actId: actId ?? this.actId,
       sets: sets ?? this.sets,
       reps: reps ?? this.reps,
+      kg: kg ?? this.kg,
       rest: rest ?? this.rest,
       status: status ?? this.status
     );
@@ -52,6 +57,7 @@ class SetsModel {
       SetsFields.actId: actId,
       SetsFields.sets: sets,
       SetsFields.reps: reps,
+      SetsFields.kg: kg,
       SetsFields.rest: rest,
       SetsFields.status: status,
     };
@@ -63,6 +69,7 @@ class SetsModel {
       actId: map[SetsFields.actId] as int,
       sets: map[SetsFields.sets] as int,
       reps: map[SetsFields.reps] as int,
+      kg: map[SetsFields.kg] as int,
       rest: map[SetsFields.rest] as int,
       status: map[SetsFields.status] as String,
     );

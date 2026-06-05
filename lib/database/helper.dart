@@ -107,6 +107,7 @@ class PeaksiqueDatabase {
         ${SetsFields.actId} $intType,
         ${SetsFields.sets} $intType,
         ${SetsFields.reps} $intType,
+        ${SetsFields.kg} $intType,
         ${SetsFields.rest} $timeType,
         ${SetsFields.status} $textType,
       
@@ -237,6 +238,16 @@ class PeaksiqueDatabase {
       'SELECT * FROM $setsTable ORDER BY $orderBy',
     );
     return result.map((map) => SetsModel.fromMap(map)).toList();
+  }
+
+  Future<List<SetsModel>> readAllSetsWithId(int actId) async {
+    final db = await instance.database;
+    final orderBy = '${SetsFields.setId} ASC';
+    final result = await db.rawQuery(
+      'SELECT * FROM $setsTable WHERE ${SetsFields.actId} = ? ORDER BY $orderBy',[actId],
+    );
+    return result.map((map) => SetsModel.fromMap(map)).toList();
+    
   }
 
   Future close() async {
