@@ -95,7 +95,9 @@ class _WorkoutPageState extends State<WorkoutPage> {
                                       GestureDetector(
                                         onTap: () {
                                           setState(() {
-                                            if (expandedIndexes.contains(index)) {
+                                            if (expandedIndexes.contains(
+                                              index,
+                                            )) {
                                               expandedIndexes.remove(index);
                                             } else {
                                               expandedIndexes.add(index);
@@ -140,9 +142,7 @@ class _WorkoutPageState extends State<WorkoutPage> {
                                         vertical: 5,
                                       ),
                                       child: FutureBuilder<List<ActivityModel>>(
-                                        future:
-                                            PeaksiqueDatabase.instance
-                                                .readActivitiesByWorkoutId(workout.wId!),
+                                        future: PeaksiqueDatabase.instance.readActivitiesByWorkoutId(workout.wId!),
                                         builder: (context, snapshot) {
                                           if (snapshot.connectionState ==
                                               ConnectionState.waiting) {
@@ -155,8 +155,7 @@ class _WorkoutPageState extends State<WorkoutPage> {
                                             );
                                           }
 
-                                          final activities =
-                                              snapshot.data ?? [];
+                                          final activities = snapshot.data ?? [];
 
                                           return Wrap(
                                             spacing: 5,
@@ -189,19 +188,16 @@ class _WorkoutPageState extends State<WorkoutPage> {
                                         },
                                       ),
                                     ),
-                                  if (expandedIndexes.contains(index)) // more info of exercise name list
+                                  if (expandedIndexes.contains(
+                                    index,
+                                  )) // more info of exercise name list
                                     Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
+                                      mainAxisAlignment: MainAxisAlignment.center,
                                       children: [
                                         FutureBuilder<List<ActivityModel>>(
-                                          future: PeaksiqueDatabase.instance
-                                              .readActivitiesByWorkoutId(
-                                                workout.wId!,
-                                              ),
+                                          future: PeaksiqueDatabase.instance.readActivitiesByWorkoutId(workout.wId!),
                                           builder: (context, snapshot) {
-                                            if (snapshot.connectionState ==
-                                                ConnectionState.waiting) {
+                                            if (snapshot.connectionState == ConnectionState.waiting) {
                                               return const CircularProgressIndicator();
                                             }
 
@@ -225,58 +221,35 @@ class _WorkoutPageState extends State<WorkoutPage> {
                                                           color: Colors.white30,
                                                         ),
                                                         borderRadius:
-                                                            BorderRadius.circular(
-                                                              12,
-                                                            ),
+                                                            BorderRadius.circular(12,),
                                                       ),
                                                       child: Column(
                                                         children: [
                                                           Text(
                                                             activity.name,
                                                             textAlign:
-                                                                TextAlign
-                                                                    .center,
+                                                                TextAlign.center,
                                                             style: TextStyle(
                                                               fontSize: 15,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
-                                                              color:
-                                                                  Colors.white,
+                                                              fontWeight: FontWeight.bold,
+                                                              color: Colors.white,
                                                             ),
                                                           ),
                                                           Padding(
-                                                            padding:
-                                                                EdgeInsetsGeometry.all(
-                                                                  10,
-                                                                ),
+                                                            padding: EdgeInsetsGeometry.all(10),
                                                             child: Divider(
-                                                              color:
-                                                                  Colors
-                                                                      .white12,
+                                                              color: Colors.white12,
                                                               height: 1,
                                                             ),
                                                           ),
                                                           FutureBuilder(
-                                                            future: PeaksiqueDatabase
-                                                                .instance
-                                                                .readAllSetsWithId(
-                                                                  activity
-                                                                      .actId!,
-                                                                ),
-                                                            builder: (
-                                                              context,
-                                                              snapshot,
-                                                            ) {
-                                                              if (snapshot
-                                                                      .connectionState ==
-                                                                  ConnectionState
-                                                                      .waiting) {
+                                                            future: PeaksiqueDatabase.instance.readAllSetsWithId(activity.actId!),
+                                                            builder: (context,snapshot) {
+                                                              if (snapshot.connectionState == ConnectionState.waiting) {
                                                                 return const CircularProgressIndicator();
                                                               }
 
-                                                              if (snapshot
-                                                                  .hasError) {
+                                                              if (snapshot.hasError) {
                                                                 return Text(
                                                                   'Error: ${snapshot.error}',
                                                                 );
@@ -284,174 +257,104 @@ class _WorkoutPageState extends State<WorkoutPage> {
 
                                                               final setsData = snapshot.data!;
                                                               final totalSet = setsData.length;
-                                                              final totalRep = setsData.fold(
-                                                                0,
-                                                                (sum, item) => sum + item.reps,
-                                                              );
-                                                              final totalKg = setsData.fold(
-                                                                0,
-                                                                (sum, item) => sum + item.kg,
-                                                              );
+                                                              final totalRep = setsData.fold(0,(sum, item) => sum + item.reps);
+                                                              final totalKg = setsData.fold(0, (sum, item) => sum + item.kg);
+                                                              final totalRest = setsData.fold(0, (sum, item) => sum + item.rest);
 
                                                               return Row(
-                                                                mainAxisAlignment:
-                                                                    MainAxisAlignment
-                                                                        .spaceAround,
+                                                                mainAxisAlignment: MainAxisAlignment.spaceAround,
                                                                 children: [
                                                                   Container(
                                                                     width: 90,
                                                                     padding:
-                                                                        EdgeInsets.all(
-                                                                          10,
-                                                                        ),
+                                                                        EdgeInsets.all(10),
                                                                     decoration: BoxDecoration(
-                                                                      border: Border.all(
-                                                                        color:
-                                                                            Colors.transparent,
-                                                                      ),
-                                                                      borderRadius:
-                                                                          BorderRadius.circular(
-                                                                            12,
-                                                                          ),
-                                                                      color:
-                                                                          Colors
-                                                                              .grey
-                                                                              .shade800,
+                                                                      border: Border.all(color: Colors.transparent),
+                                                                      borderRadius: BorderRadius.circular(12),
+                                                                      color: Colors.grey.shade800,
                                                                     ),
                                                                     child: Column(
                                                                       children: [
                                                                         Text(
                                                                           '$totalSet',
-                                                                          textAlign:
-                                                                              TextAlign.center,
+                                                                          textAlign: TextAlign.center,
                                                                           style: TextStyle(
-                                                                            fontSize:
-                                                                                12,
-                                                                            color:
-                                                                                Colors.white,
-                                                                            fontWeight:
-                                                                                FontWeight.bold,
+                                                                            fontSize: 12,
+                                                                            color:  Colors.white,
+                                                                            fontWeight: FontWeight.bold,
                                                                           ),
                                                                         ),
                                                                         Text(
                                                                           'SETS',
-                                                                          textAlign:
-                                                                              TextAlign.center,
+                                                                          textAlign: TextAlign.center,
                                                                           style: TextStyle(
-                                                                            fontSize:
-                                                                                13,
-                                                                            color:
-                                                                                Colors.white,
-                                                                            fontWeight:
-                                                                                FontWeight.bold,
+                                                                            fontSize: 13,
+                                                                            color:  Colors.white,
+                                                                            fontWeight: FontWeight.bold,
                                                                           ),
                                                                         ),
                                                                       ],
                                                                     ),
                                                                   ),
-                                                                  SizedBox(
-                                                                    width: 5,
-                                                                  ),
+                                                                  SizedBox(width: 5),
                                                                   Container(
                                                                     width: 90,
-                                                                    padding:
-                                                                        EdgeInsets.all(
-                                                                          10,
-                                                                        ),
+                                                                    padding: EdgeInsets.all(10),
                                                                     decoration: BoxDecoration(
-                                                                      border: Border.all(
-                                                                        color:
-                                                                            Colors.transparent,
-                                                                      ),
-                                                                      borderRadius:
-                                                                          BorderRadius.circular(
-                                                                            12,
-                                                                          ),
-                                                                      color:
-                                                                          Colors
-                                                                              .grey
-                                                                              .shade800,
+                                                                      border: Border.all( color: Colors.transparent),
+                                                                      borderRadius: BorderRadius.circular(12),
+                                                                      color: Colors.grey.shade800,
                                                                     ),
                                                                     child: Column(
                                                                       children: [
                                                                         Text(
                                                                           '$totalRep',
-                                                                          textAlign:
-                                                                              TextAlign.center,
+                                                                          textAlign:TextAlign.center,
                                                                           style: TextStyle(
-                                                                            fontSize:
-                                                                                12,
-                                                                            color:
-                                                                                Colors.white,
-                                                                            fontWeight:
-                                                                                FontWeight.bold,
+                                                                            fontSize: 12,
+                                                                            color:  Colors.white,
+                                                                            fontWeight: FontWeight.bold,
                                                                           ),
                                                                         ),
                                                                         Text(
                                                                           'REPS',
-                                                                          textAlign:
-                                                                              TextAlign.center,
+                                                                          textAlign: TextAlign.center,
                                                                           style: TextStyle(
-                                                                            fontSize:
-                                                                                13,
-                                                                            color:
-                                                                                Colors.white,
-                                                                            fontWeight:
-                                                                                FontWeight.bold,
+                                                                            fontSize: 13,
+                                                                            color:  Colors.white,
+                                                                            fontWeight: FontWeight.bold,
                                                                           ),
                                                                         ),
                                                                       ],
                                                                     ),
                                                                   ),
-                                                                  SizedBox(
-                                                                    width: 5,
-                                                                  ),
+                                                                  SizedBox(width: 5),
                                                                   Container(
                                                                     width: 90,
-                                                                    padding:
-                                                                        EdgeInsets.all(
-                                                                          10,
-                                                                        ),
+                                                                    padding: EdgeInsets.all(10),
                                                                     decoration: BoxDecoration(
-                                                                      border: Border.all(
-                                                                        color:
-                                                                            Colors.transparent,
-                                                                      ),
-                                                                      borderRadius:
-                                                                          BorderRadius.circular(
-                                                                            12,
-                                                                          ),
-                                                                      color:
-                                                                          Colors
-                                                                              .grey
-                                                                              .shade800,
+                                                                      border: Border.all(color: Colors.transparent),
+                                                                      borderRadius:  BorderRadius.circular(12),
+                                                                      color: Colors.grey.shade800
                                                                     ),
                                                                     child: Column(
                                                                       children: [
                                                                         Text(
                                                                           '$totalKg',
-                                                                          textAlign:
-                                                                              TextAlign.center,
+                                                                          textAlign: TextAlign.center,
                                                                           style: TextStyle(
-                                                                            fontSize:
-                                                                                12,
-                                                                            color:
-                                                                                Colors.white,
-                                                                            fontWeight:
-                                                                                FontWeight.bold,
+                                                                            fontSize: 12,
+                                                                            color: Colors.white,
+                                                                            fontWeight: FontWeight.bold,
                                                                           ),
                                                                         ),
                                                                         Text(
                                                                           'KG',
-                                                                          textAlign:
-                                                                              TextAlign.center,
+                                                                          textAlign: TextAlign.center,
                                                                           style: TextStyle(
-                                                                            fontSize:
-                                                                                13,
-                                                                            color:
-                                                                                Colors.white,
-                                                                            fontWeight:
-                                                                                FontWeight.bold,
+                                                                            fontSize:13,
+                                                                            color:Colors.white,
+                                                                            fontWeight:FontWeight.bold,
                                                                           ),
                                                                         ),
                                                                       ],
