@@ -1,4 +1,4 @@
-# peaksique
+# PEAKSIQUE
 
 A Lifting Tracker app.
 Motivation > Consistency > Obsession...
